@@ -1,0 +1,583 @@
+ERROR 2026-05-21 00:00:37,861 log Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: core_article
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/apps/core/views.py", line 31, in home
+    latest_article = Article.objects.filter(is_published=True).first()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1099, in first
+    for obj in queryset[:1]:
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 402, in __iter__
+    self._fetch_all()
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1933, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: core_article
+ERROR 2026-05-21 00:00:37,868 basehttp "GET / HTTP/1.1" 500 142367
+ERROR 2026-05-21 00:01:20,799 log Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: core_article
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/apps/core/views.py", line 31, in home
+    latest_article = Article.objects.filter(is_published=True).first()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1099, in first
+    for obj in queryset[:1]:
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 402, in __iter__
+    self._fetch_all()
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1933, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: core_article
+ERROR 2026-05-21 00:01:20,804 basehttp "GET / HTTP/1.1" 500 142242
+ERROR 2026-05-21 00:01:21,941 log Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: core_article
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/apps/core/views.py", line 31, in home
+    latest_article = Article.objects.filter(is_published=True).first()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1099, in first
+    for obj in queryset[:1]:
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 402, in __iter__
+    self._fetch_all()
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1933, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: core_article
+ERROR 2026-05-21 00:01:21,945 basehttp "GET / HTTP/1.1" 500 142242
+ERROR 2026-05-21 00:01:22,759 log Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: core_article
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/apps/core/views.py", line 31, in home
+    latest_article = Article.objects.filter(is_published=True).first()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1099, in first
+    for obj in queryset[:1]:
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 402, in __iter__
+    self._fetch_all()
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1933, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: core_article
+ERROR 2026-05-21 00:01:22,762 basehttp "GET / HTTP/1.1" 500 142242
+INFO 2026-05-21 00:08:48,012 views Home page requested
+INFO 2026-05-21 00:09:29,016 views Home page requested
+INFO 2026-05-21 00:10:37,405 views Home page requested
+DEBUG 2026-05-21 00:13:05,499 Image Importing AvifImagePlugin
+DEBUG 2026-05-21 00:13:05,524 Image Importing BlpImagePlugin
+DEBUG 2026-05-21 00:13:05,527 Image Importing BmpImagePlugin
+DEBUG 2026-05-21 00:13:05,527 Image Importing BufrStubImagePlugin
+DEBUG 2026-05-21 00:13:05,528 Image Importing CurImagePlugin
+DEBUG 2026-05-21 00:13:05,529 Image Importing DcxImagePlugin
+DEBUG 2026-05-21 00:13:05,534 Image Importing DdsImagePlugin
+DEBUG 2026-05-21 00:13:05,551 Image Importing EpsImagePlugin
+DEBUG 2026-05-21 00:13:05,554 Image Importing FitsImagePlugin
+DEBUG 2026-05-21 00:13:05,555 Image Importing FliImagePlugin
+DEBUG 2026-05-21 00:13:05,557 Image Importing FpxImagePlugin
+DEBUG 2026-05-21 00:13:05,558 Image Image: failed to import FpxImagePlugin: No module named 'olefile'
+DEBUG 2026-05-21 00:13:05,558 Image Importing FtexImagePlugin
+DEBUG 2026-05-21 00:13:05,560 Image Importing GbrImagePlugin
+DEBUG 2026-05-21 00:13:05,561 Image Importing GifImagePlugin
+DEBUG 2026-05-21 00:13:05,561 Image Importing GribStubImagePlugin
+DEBUG 2026-05-21 00:13:05,562 Image Importing Hdf5StubImagePlugin
+DEBUG 2026-05-21 00:13:05,563 Image Importing IcnsImagePlugin
+DEBUG 2026-05-21 00:13:05,568 Image Importing IcoImagePlugin
+DEBUG 2026-05-21 00:13:05,571 Image Importing ImImagePlugin
+DEBUG 2026-05-21 00:13:05,574 Image Importing ImtImagePlugin
+DEBUG 2026-05-21 00:13:05,575 Image Importing IptcImagePlugin
+DEBUG 2026-05-21 00:13:05,576 Image Importing JpegImagePlugin
+DEBUG 2026-05-21 00:13:05,576 Image Importing Jpeg2KImagePlugin
+DEBUG 2026-05-21 00:13:05,576 Image Importing McIdasImagePlugin
+DEBUG 2026-05-21 00:13:05,577 Image Importing MicImagePlugin
+DEBUG 2026-05-21 00:13:05,579 Image Image: failed to import MicImagePlugin: No module named 'olefile'
+DEBUG 2026-05-21 00:13:05,579 Image Importing MpegImagePlugin
+DEBUG 2026-05-21 00:13:05,582 Image Importing MpoImagePlugin
+DEBUG 2026-05-21 00:13:05,590 Image Importing MspImagePlugin
+DEBUG 2026-05-21 00:13:05,594 Image Importing PalmImagePlugin
+DEBUG 2026-05-21 00:13:05,597 Image Importing PcdImagePlugin
+DEBUG 2026-05-21 00:13:05,600 Image Importing PcxImagePlugin
+DEBUG 2026-05-21 00:13:05,600 Image Importing PdfImagePlugin
+DEBUG 2026-05-21 00:13:05,619 Image Importing PixarImagePlugin
+DEBUG 2026-05-21 00:13:05,620 Image Importing PngImagePlugin
+DEBUG 2026-05-21 00:13:05,621 Image Importing PpmImagePlugin
+DEBUG 2026-05-21 00:13:05,621 Image Importing PsdImagePlugin
+DEBUG 2026-05-21 00:13:05,622 Image Importing QoiImagePlugin
+DEBUG 2026-05-21 00:13:05,623 Image Importing SgiImagePlugin
+DEBUG 2026-05-21 00:13:05,624 Image Importing SpiderImagePlugin
+DEBUG 2026-05-21 00:13:05,626 Image Importing SunImagePlugin
+DEBUG 2026-05-21 00:13:05,627 Image Importing TgaImagePlugin
+DEBUG 2026-05-21 00:13:05,628 Image Importing TiffImagePlugin
+DEBUG 2026-05-21 00:13:05,628 Image Importing WebPImagePlugin
+DEBUG 2026-05-21 00:13:05,637 Image Importing WmfImagePlugin
+DEBUG 2026-05-21 00:13:05,638 Image Importing XbmImagePlugin
+DEBUG 2026-05-21 00:13:05,640 Image Importing XpmImagePlugin
+DEBUG 2026-05-21 00:13:05,641 Image Importing XVThumbImagePlugin
+INFO 2026-05-21 00:13:34,485 views Home page requested
+INFO 2026-05-21 00:17:01,430 views Home page requested
+INFO 2026-05-21 00:17:40,797 views Home page requested
+INFO 2026-05-21 00:20:58,880 views Home page requested
+INFO 2026-05-21 00:25:27,122 views Home page requested
+INFO 2026-05-21 00:34:58,623 views Home page requested
+INFO 2026-05-21 00:43:09,159 views Home page requested
+INFO 2026-05-21 00:43:32,903 views Home page requested
+INFO 2026-05-21 00:44:14,117 views Appointment created by user
+INFO 2026-05-21 00:44:39,248 views Home page requested
+INFO 2026-05-21 00:45:12,299 views Home page requested
+INFO 2026-05-21 00:45:14,789 views Home page requested
+INFO 2026-05-21 00:45:24,896 views Home page requested
+INFO 2026-05-21 00:47:05,044 views Home page requested
+INFO 2026-05-21 00:47:07,459 views Home page requested
+INFO 2026-05-21 00:47:15,236 views Home page requested
+INFO 2026-05-21 00:47:29,056 views Home page requested
+INFO 2026-05-21 00:47:38,276 views Home page requested
+INFO 2026-05-21 00:47:56,289 views Home page requested
+INFO 2026-05-21 09:30:13,804 views Home page requested
+WARNING 2026-05-21 09:30:15,178 log Not Found: /favicon.ico
+DEBUG 2026-05-21 09:31:58,583 Image Importing AvifImagePlugin
+DEBUG 2026-05-21 09:31:58,607 Image Importing BlpImagePlugin
+DEBUG 2026-05-21 09:31:58,614 Image Importing BmpImagePlugin
+DEBUG 2026-05-21 09:31:58,619 Image Importing BufrStubImagePlugin
+DEBUG 2026-05-21 09:31:58,624 Image Importing CurImagePlugin
+DEBUG 2026-05-21 09:31:58,636 Image Importing DcxImagePlugin
+DEBUG 2026-05-21 09:31:58,642 Image Importing DdsImagePlugin
+DEBUG 2026-05-21 09:31:58,666 Image Importing EpsImagePlugin
+DEBUG 2026-05-21 09:31:58,670 Image Importing FitsImagePlugin
+DEBUG 2026-05-21 09:31:58,672 Image Importing FliImagePlugin
+DEBUG 2026-05-21 09:31:58,673 Image Importing FpxImagePlugin
+DEBUG 2026-05-21 09:31:58,676 Image Image: failed to import FpxImagePlugin: No module named 'olefile'
+DEBUG 2026-05-21 09:31:58,677 Image Importing FtexImagePlugin
+DEBUG 2026-05-21 09:31:58,679 Image Importing GbrImagePlugin
+DEBUG 2026-05-21 09:31:58,683 Image Importing GifImagePlugin
+DEBUG 2026-05-21 09:31:58,683 Image Importing GribStubImagePlugin
+DEBUG 2026-05-21 09:31:58,686 Image Importing Hdf5StubImagePlugin
+DEBUG 2026-05-21 09:31:58,687 Image Importing IcnsImagePlugin
+DEBUG 2026-05-21 09:31:58,700 Image Importing IcoImagePlugin
+DEBUG 2026-05-21 09:31:58,708 Image Importing ImImagePlugin
+DEBUG 2026-05-21 09:31:58,711 Image Importing ImtImagePlugin
+DEBUG 2026-05-21 09:31:58,713 Image Importing IptcImagePlugin
+DEBUG 2026-05-21 09:31:58,715 Image Importing JpegImagePlugin
+DEBUG 2026-05-21 09:31:58,716 Image Importing Jpeg2KImagePlugin
+DEBUG 2026-05-21 09:31:58,716 Image Importing McIdasImagePlugin
+DEBUG 2026-05-21 09:31:58,718 Image Importing MicImagePlugin
+DEBUG 2026-05-21 09:31:58,722 Image Image: failed to import MicImagePlugin: No module named 'olefile'
+DEBUG 2026-05-21 09:31:58,722 Image Importing MpegImagePlugin
+DEBUG 2026-05-21 09:31:58,737 Image Importing MpoImagePlugin
+DEBUG 2026-05-21 09:31:58,754 Image Importing MspImagePlugin
+DEBUG 2026-05-21 09:31:58,758 Image Importing PalmImagePlugin
+DEBUG 2026-05-21 09:31:58,762 Image Importing PcdImagePlugin
+DEBUG 2026-05-21 09:31:58,765 Image Importing PcxImagePlugin
+DEBUG 2026-05-21 09:31:58,770 Image Importing PdfImagePlugin
+DEBUG 2026-05-21 09:31:58,805 Image Importing PixarImagePlugin
+DEBUG 2026-05-21 09:31:58,812 Image Importing PngImagePlugin
+DEBUG 2026-05-21 09:31:58,813 Image Importing PpmImagePlugin
+DEBUG 2026-05-21 09:31:58,814 Image Importing PsdImagePlugin
+DEBUG 2026-05-21 09:31:58,817 Image Importing QoiImagePlugin
+DEBUG 2026-05-21 09:31:58,825 Image Importing SgiImagePlugin
+DEBUG 2026-05-21 09:31:58,831 Image Importing SpiderImagePlugin
+DEBUG 2026-05-21 09:31:58,841 Image Importing SunImagePlugin
+DEBUG 2026-05-21 09:31:58,849 Image Importing TgaImagePlugin
+DEBUG 2026-05-21 09:31:58,857 Image Importing TiffImagePlugin
+DEBUG 2026-05-21 09:31:58,857 Image Importing WebPImagePlugin
+DEBUG 2026-05-21 09:31:58,865 Image Importing WmfImagePlugin
+DEBUG 2026-05-21 09:31:58,872 Image Importing XbmImagePlugin
+DEBUG 2026-05-21 09:31:58,879 Image Importing XpmImagePlugin
+DEBUG 2026-05-21 09:31:58,897 Image Importing XVThumbImagePlugin
+INFO 2026-05-21 09:32:05,990 views Home page requested
+WARNING 2026-05-21 09:36:01,514 log Not Found: /favicon.ico
+WARNING 2026-05-21 09:36:01,514 basehttp "GET /favicon.ico HTTP/1.1" 404 8466
+INFO 2026-05-21 10:24:54,168 views Home page requested
+DEBUG 2026-05-21 10:25:00,205 selector_events Using selector: EpollSelector
+INFO 2026-05-21 10:51:45,879 views Home page requested
+DEBUG 2026-05-21 10:51:46,200 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 10:51:46,315 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+ERROR 2026-05-21 10:51:56,770 log Internal Server Error: /services/
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/defaulttags.py", line 1035, in find_library
+    return parser.libraries[name]
+           ~~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'custom_tags'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/apps/core/views.py", line 139, in services_list
+    return render(request, "services.html", {"services": qs, "form": form})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/defaulttags.py", line 1097, in load
+    lib = find_library(parser, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/defaulttags.py", line 1037, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'custom_tags' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+cache
+i18n
+l10n
+log
+static
+tz
+ERROR 2026-05-21 10:51:56,780 basehttp "GET /services/ HTTP/1.1" 500 219877
+DEBUG 2026-05-21 10:53:20,322 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 10:53:20,411 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+ERROR 2026-05-21 10:53:20,568 log Internal Server Error: /services/
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/apps/core/templatetags/custom_tags.py", line 17, in convert_price
+    converted = float(price) / byn_rate * target_rate
+                ^^^^^^^^^^^^
+ValueError: could not convert string to float: ''
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/apps/core/views.py", line 139, in services_list
+    return render(request, "services.html", {"services": qs, "form": form})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 1067, in render
+    output = self.filter_expression.resolve(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/.venv/lib/python3.11/site-packages/django/template/base.py", line 745, in resolve
+    new_obj = func(obj, *arg_vals)
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/home/venomonom/PycharmProjects/IGI_lab5/apps/core/templatetags/custom_tags.py", line 20, in convert_price
+    return round(float(price), 2)
+                 ^^^^^^^^^^^^
+ValueError: could not convert string to float: ''
+ERROR 2026-05-21 10:53:20,576 basehttp "GET /services/ HTTP/1.1" 500 203226
+DEBUG 2026-05-21 10:54:33,156 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 10:54:33,247 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+WARNING 2026-05-21 10:56:13,491 log Not Found: /set-currency/
+WARNING 2026-05-21 10:56:13,492 basehttp "POST /set-currency/ HTTP/1.1" 404 8752
+WARNING 2026-05-21 10:56:15,635 log Not Found: /set-currency/
+WARNING 2026-05-21 10:56:15,636 basehttp "POST /set-currency/ HTTP/1.1" 404 8752
+WARNING 2026-05-21 10:56:17,574 log Not Found: /set-currency/
+WARNING 2026-05-21 10:56:17,575 basehttp "POST /set-currency/ HTTP/1.1" 404 8752
+DEBUG 2026-05-21 10:56:38,873 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 10:56:38,957 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+WARNING 2026-05-21 10:56:41,348 log Not Found: /set-currency/
+WARNING 2026-05-21 10:56:41,350 basehttp "POST /set-currency/ HTTP/1.1" 404 8752
+WARNING 2026-05-21 10:56:43,184 log Not Found: /set-currency/
+WARNING 2026-05-21 10:56:43,185 basehttp "POST /set-currency/ HTTP/1.1" 404 8752
+DEBUG 2026-05-21 10:58:34,653 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 10:58:34,748 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+DEBUG 2026-05-21 11:01:05,945 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 11:01:06,029 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+DEBUG 2026-05-21 11:01:56,530 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 11:01:56,623 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+DEBUG 2026-05-21 11:03:31,488 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 11:03:31,595 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+INFO 2026-05-21 11:07:47,958 views Home page requested
+INFO 2026-05-21 11:07:52,023 views Home page requested
+INFO 2026-05-21 11:07:53,826 views Home page requested
+DEBUG 2026-05-21 12:34:00,168 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 12:34:00,463 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+DEBUG 2026-05-21 12:39:12,679 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 12:39:12,927 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+DEBUG 2026-05-21 12:41:35,160 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 12:41:35,437 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+WARNING 2026-05-21 12:44:54,568 log Bad Request: /set-currency/
+WARNING 2026-05-21 12:44:54,572 basehttp "POST /set-currency/ HTTP/1.1" 400 19
+WARNING 2026-05-21 12:45:02,508 log Bad Request: /set-currency/
+WARNING 2026-05-21 12:45:02,510 basehttp "POST /set-currency/ HTTP/1.1" 400 19
+INFO 2026-05-21 12:51:59,453 views Home page requested
+DEBUG 2026-05-21 12:53:16,811 selector_events Using selector: EpollSelector
+INFO 2026-05-21 12:53:43,375 views Home page requested
+INFO 2026-05-21 13:00:50,358 views Home page requested
+DEBUG 2026-05-21 13:00:50,376 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 13:00:50,728 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+INFO 2026-05-21 13:01:01,098 views Home page requested
+DEBUG 2026-05-21 13:02:58,755 connectionpool Starting new HTTPS connection (1): ipapi.co:443
+DEBUG 2026-05-21 13:02:59,292 connectionpool https://ipapi.co:443 "GET /127.0.0.1/json/ HTTP/1.1" 200 None
+DEBUG 2026-05-21 13:02:59,322 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 13:02:59,593 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
+DEBUG 2026-05-21 13:03:21,870 connectionpool Starting new HTTPS connection (1): ipapi.co:443
+DEBUG 2026-05-21 13:03:22,403 connectionpool https://ipapi.co:443 "GET /127.0.0.1/json/ HTTP/1.1" 200 None
+DEBUG 2026-05-21 13:03:22,450 connectionpool Starting new HTTPS connection (1): api.nbrb.by:443
+DEBUG 2026-05-21 13:03:22,802 connectionpool https://api.nbrb.by:443 "GET /exrates/rates?periodicity=0 HTTP/1.1" 200 4520
