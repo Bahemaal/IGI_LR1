@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Запись на приём{% endblock %}
+{% block content %}
+<h1>Запись на приём</h1>
+<form method="post" style="max-width:500px;background:#fff;padding:20px;border-radius:8px;border:1px solid #ddd">
+    {% csrf_token %}
+    {% for field in form %}
+    <p><label>{{ field.label }}<br>{{ field }}</label>
+    {% if field.errors %}<span style="color:red">{{ field.errors }}</span>{% endif %}</p>
+    {% endfor %}
+    <button type="submit" class="btn">Записаться</button>
+</form>
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    const dt = document.querySelector('[name="date_time"]');
+    if (dt && new Date(dt.value) < new Date()) {
+        e.preventDefault();
+        alert('Дата не может быть в прошлом!');
+    }
+});
+</script>
+{% endblock %}

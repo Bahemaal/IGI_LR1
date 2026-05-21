@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Многозадачность — Вариант 22</title>
+<style>
+body{font-family:monospace;padding:24px;background:#1e1e1e;color:#d4d4d4}
+h1{color:#9cdcfe} h2{color:#4ec9b0;margin-top:30px}
+table{border-collapse:collapse;margin-top:10px}
+td,th{border:1px solid #444;padding:6px 14px}
+th{background:#2d2d2d;color:#ce9178}
+.ok{color:#4ec9b0} .fail{color:#f44747}
+.time{color:#dcdcaa;font-size:13px;margin-top:4px}
+</style>
+</head>
+<body>
+<h1>Многозадачность / Конкурентность — Вариант 22 «Библиотека»</h1>
+
+<h2>А. Threading — 5 читателей, 2 библиотекаря (Semaphore)</h2>
+<p class="time">Общее время: <strong>{{ thread_time }} с</strong></p>
+<table>
+<tr><th>Читатель</th><th>Время ожидания (с)</th></tr>
+{% for r in thread_results %}
+<tr><td>{{ r.name }}</td><td>{{ r.time }}</td></tr>
+{% endfor %}
+</table>
+<p style="color:#888;font-size:12px;margin-top:8px">
+Semaphore(2) гарантирует: одновременно не более 2 потоков обращаются к «библиотекарю».
+Остальные ждут в очереди. Без блокировки Lock данные results могли бы испортиться при конкурентной записи.
+</p>
+
+<h2>Б. Multiprocessing — индексация 4 «томов» (40 000+ слов)</h2>
+<p class="time">Общее время: <strong>{{ mp_time }} с</strong></p>
+<table>
+<tr><th>Слово</th><th>Количество вхождений</th></tr>
+{% for word, cnt in mp_top10 %}
+<tr><td>{{ word }}</td><td>{{ cnt }}</td></tr>
+{% endfor %}
+</table>
+<p style="color:#888;font-size:12px;margin-top:8px">
+Pool(processes=4) распределяет куски текста по ядрам CPU — истинный параллелизм, не ограниченный GIL.
+Обычный for-цикл занял бы в 4 раза больше времени.
+</p>
+
+<h2>В. Asyncio — поиск по 10 каталогам одновременно</h2>
+<p class="time">Общее время: <strong>{{ async_time }} с</strong></p>
+<table>
+<tr><th>Каталог</th><th>Найдено?</th></tr>
+{% for r in async_results %}
+<tr>
+  <td>{{ r.catalog }}</td>
+  <td class="{% if r.found %}ok{% else %}fail{% endif %}">
+    {% if r.found %}✓ Да{% else %}✗ Нет{% endif %}
+  </td>
+</tr>
+{% endfor %}
+</table>
+<p style="color:#888;font-size:12px;margin-top:8px">
+asyncio.gather() запускает 10 корутин конкурентно в одном потоке. Суммарная задержка ≈ max(delays),
+а не sum(delays), как при последовательном исполнении. Это эффективнее threading для I/O-задач.
+</p>
+
+<p style="margin-top:30px"><a href="/" style="color:#9cdcfe">← Вернуться на главную</a></p>
+</body>
+</html>

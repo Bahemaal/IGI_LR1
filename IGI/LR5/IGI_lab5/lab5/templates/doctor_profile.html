@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Кабинет врача{% endblock %}
+{% block content %}
+<h1>Кабинет врача: {{ doctor.full_name }}</h1>
+<p>Специализация: {{ doctor.specialization }} | Стаж: {{ doctor.experience }} лет</p>
+
+<h3 style="margin-top:20px">Моё расписание</h3>
+<table>
+<tr><th>День</th><th>Кабинет</th><th>Начало</th><th>Конец</th></tr>
+{% for sc in schedules %}
+<tr><td>{{ sc.get_weekday_display }}</td><td>{{ sc.cabinet }}</td><td>{{ sc.time_start }}</td><td>{{ sc.time_end }}</td></tr>
+{% empty %}<tr><td colspan="4">Расписание не указано</td></tr>
+{% endfor %}
+</table>
+
+<h3 style="margin-top:20px">Мои записи</h3>
+<table>
+<tr><th>Клиент</th><th>Услуга</th><th>Дата/Время</th><th>Статус</th></tr>
+{% for a in appointments %}
+<tr>
+    <td>{{ a.client.full_name }}</td>
+    <td>{{ a.service.name }}</td>
+    <td>{{ a.date_time|date:"d/m/Y H:i" }}</td>
+    <td>{{ a.get_status_display }}</td>
+</tr>
+{% empty %}<tr><td colspan="4">Записей нет</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Вакансии{% endblock %}
+{% block content %}
+<h1>Вакансии</h1>
+{% for v in vacancies %}
+<div style="border:1px solid #ddd;border-radius:6px;padding:14px;margin-bottom:12px;background:#fff">
+    <h3>{{ v.title }}</h3>
+    {% if v.salary %}<p><strong>Зарплата:</strong> {{ v.salary }}</p>{% endif %}
+    <p>{{ v.description|linebreaks }}</p>
+</div>
+{% empty %}<p>Открытых вакансий нет.</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Словарь терминов / FAQ{% endblock %}
+{% block content %}
+<h1>Словарь терминов и часто задаваемые вопросы</h1>
+{% for item in items %}
+<details style="border:1px solid #ddd;border-radius:5px;padding:10px;margin-bottom:8px;background:#fff">
+    <summary style="cursor:pointer;font-weight:bold">{{ item.question }}</summary>
+    <p style="margin-top:8px">{{ item.answer }}</p>
+    <small style="color:#888">Добавлено: {{ item.added_at|date:"d/m/Y" }}</small>
+</details>
+{% empty %}<p>Раздел пополняется.</p>
+{% endfor %}
+{% endblock %}

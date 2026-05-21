@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Статистика{% endblock %}
+{% block content %}
+<h1>Статистика</h1>
+
+<div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:24px">
+    {% for label, val, color in summary %}
+    <div style="background:{{ color }};border-radius:6px;padding:14px;min-width:140px;text-align:center">
+        <div style="font-size:28px;font-weight:bold">{{ val }}</div>
+        <div style="font-size:12px">{{ label }}</div>
+    </div>
+    {% endfor %}
+    <div style="background:#d4edda;border-radius:6px;padding:14px;min-width:140px;text-align:center">
+        <div style="font-size:28px;font-weight:bold">{{ total_appointments }}</div>
+        <div style="font-size:12px">Всего записей</div>
+    </div>
+    <div style="background:#cce5ff;border-radius:6px;padding:14px;min-width:140px;text-align:center">
+        <div style="font-size:28px;font-weight:bold">{{ completed }}</div>
+        <div style="font-size:12px">Завершено</div>
+    </div>
+    <div style="background:#fff3cd;border-radius:6px;padding:14px;min-width:140px;text-align:center">
+        <div style="font-size:28px;font-weight:bold">{{ upcoming }}</div>
+        <div style="font-size:12px">Предстоящих</div>
+    </div>
+    <div style="background:#ede8f5;border-radius:6px;padding:14px;min-width:140px;text-align:center">
+        <div style="font-size:28px;font-weight:bold">{{ revenue }} руб.</div>
+        <div style="font-size:12px">Выручка</div>
+    </div>
+</div>
+
+<h3>Статистика цен на услуги</h3>
+<table style="max-width:400px">
+    <tr><td>Среднее</td><td><strong>{{ price_mean }} руб.</strong></td></tr>
+    <tr><td>Медиана</td><td><strong>{{ price_median }} руб.</strong></td></tr>
+    <tr><td>Мода</td><td><strong>{{ price_mode }} руб.</strong></td></tr>
+</table>
+
+<h3 style="margin-top:20px">Статистика возраста клиентов</h3>
+<table style="max-width:300px">
+    <tr><td>Среднее</td><td><strong>{{ age_mean }} лет</strong></td></tr>
+    <tr><td>Медиана</td><td><strong>{{ age_median }} лет</strong></td></tr>
+</table>
+
+<h3 style="margin-top:20px">Популярные услуги</h3>
+<table>
+<tr><th>Услуга</th><th>Кол-во записей</th></tr>
+{% for s in popular_services %}
+<tr><td>{{ s.name }}</td><td>{{ s.appointment_count }}</td></tr>
+{% endfor %}
+</table>
+
+<h3 style="margin-top:24px">Услуги по категориям (диаграмма)</h3>
+<canvas id="chart" width="500" height="300"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+        labels: {{ chart_labels|safe }},
+        datasets: [{
+            label: 'Кол-во услуг',
+            data: {{ chart_values|safe }},
+            backgroundColor: '#7b57b5'
+        }]
+    },
+    options: { responsive: false, plugins: { legend: { display: false } } }
+});
+</script>
+
+<h3 style="margin-top:24px">Клиенты (алфавит)</h3>
+<table>
+<tr><th>ФИО</th><th>Возраст</th><th>Телефон</th><th>Email</th></tr>
+{% for c in clients_alpha %}
+<tr>
+    <td>{{ c.full_name }}</td>
+    <td>{{ c.age }}</td>
+    <td>{{ c.phone }}</td>
+    <td>{{ c.email }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

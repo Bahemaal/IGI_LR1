@@ -1,0 +1,448 @@
+[
+  {
+    "model": "core.doctorcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Дерматология",
+      "description": "Специализация: Дерматология"
+    }
+  },
+  {
+    "model": "core.doctorcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Трихология",
+      "description": "Специализация: Трихология"
+    }
+  },
+  {
+    "model": "core.doctorcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Инъекционная косметология",
+      "description": "Специализация: Инъекционная косметология"
+    }
+  },
+  {
+    "model": "core.doctorcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Аппаратная косметология",
+      "description": "Специализация: Аппаратная косметология"
+    }
+  },
+  {
+    "model": "core.servicecategory",
+    "pk": 1,
+    "fields": {
+      "name": "Уход за лицом"
+    }
+  },
+  {
+    "model": "core.servicecategory",
+    "pk": 2,
+    "fields": {
+      "name": "Уход за телом"
+    }
+  },
+  {
+    "model": "core.servicecategory",
+    "pk": 3,
+    "fields": {
+      "name": "Лазерные процедуры"
+    }
+  },
+  {
+    "model": "core.servicecategory",
+    "pk": 4,
+    "fields": {
+      "name": "Инъекции"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 1,
+    "fields": {
+      "category": 1,
+      "name": "Классическая чистка лица",
+      "price": "50.00",
+      "duration": 60,
+      "description": "Профессиональная процедура: Классическая чистка лица",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 2,
+    "fields": {
+      "category": 1,
+      "name": "Ультразвуковая чистка",
+      "price": "65.00",
+      "duration": 45,
+      "description": "Профессиональная процедура: Ультразвуковая чистка",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 3,
+    "fields": {
+      "category": 1,
+      "name": "Химический пилинг",
+      "price": "80.00",
+      "duration": 60,
+      "description": "Профессиональная процедура: Химический пилинг",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 4,
+    "fields": {
+      "category": 2,
+      "name": "Антицеллюлитный массаж",
+      "price": "70.00",
+      "duration": 90,
+      "description": "Профессиональная процедура: Антицеллюлитный массаж",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 5,
+    "fields": {
+      "category": 2,
+      "name": "Обёртывание",
+      "price": "60.00",
+      "duration": 60,
+      "description": "Профессиональная процедура: Обёртывание",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 6,
+    "fields": {
+      "category": 3,
+      "name": "Лазерная эпиляция (зона бикини)",
+      "price": "90.00",
+      "duration": 45,
+      "description": "Профессиональная процедура: Лазерная эпиляция (зона бикини)",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 7,
+    "fields": {
+      "category": 3,
+      "name": "Фотоомоложение",
+      "price": "120.00",
+      "duration": 60,
+      "description": "Профессиональная процедура: Фотоомоложение",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 8,
+    "fields": {
+      "category": 4,
+      "name": "Ботокс",
+      "price": "150.00",
+      "duration": 30,
+      "description": "Профессиональная процедура: Ботокс",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 9,
+    "fields": {
+      "category": 4,
+      "name": "Биоревитализация",
+      "price": "180.00",
+      "duration": 45,
+      "description": "Профессиональная процедура: Биоревитализация",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 10,
+    "fields": {
+      "category": 1,
+      "name": "RF-лифтинг",
+      "price": "110.00",
+      "duration": 50,
+      "description": "Профессиональная процедура: RF-лифтинг",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 11,
+    "fields": {
+      "category": 2,
+      "name": "Лимфодренажный массаж",
+      "price": "75.00",
+      "duration": 60,
+      "description": "Профессиональная процедура: Лимфодренажный массаж",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 12,
+    "fields": {
+      "category": 3,
+      "name": "Лазерное удаление пигментации",
+      "price": "100.00",
+      "duration": 30,
+      "description": "Профессиональная процедура: Лазерное удаление пигментации",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.cabinet",
+    "pk": 1,
+    "fields": {
+      "number": "101",
+      "name": "Дерматология"
+    }
+  },
+  {
+    "model": "core.cabinet",
+    "pk": 2,
+    "fields": {
+      "number": "102",
+      "name": "Косметология"
+    }
+  },
+  {
+    "model": "core.cabinet",
+    "pk": 3,
+    "fields": {
+      "number": "103",
+      "name": "Лазер"
+    }
+  },
+  {
+    "model": "core.cabinet",
+    "pk": 4,
+    "fields": {
+      "number": "104",
+      "name": "Инъекции"
+    }
+  },
+  {
+    "model": "core.companyinfo",
+    "pk": 1,
+    "fields": {
+      "name": "Косметологический центр «Bella»",
+      "description": "Современный косметологический центр с профессиональными врачами и новейшим оборудованием. Работаем с 2010 года.",
+      "founded_year": 2010,
+      "logo": "",
+      "video_url": "",
+      "requisites": "УНП: 123456789\nАдрес: г. Минск, ул. Примерная, 1\nТел: +375 (17) 123-45-67"
+    }
+  },
+  {
+    "model": "core.article",
+    "pk": 1,
+    "fields": {
+      "title": "Весенний уход за кожей",
+      "summary": "Как подготовить кожу к весне и избежать авитаминоза.",
+      "content": "Полная статья о весеннем уходе за кожей лица...",
+      "image": "",
+      "published_at": "2025-03-01T10:00:00Z",
+      "is_published": true
+    }
+  },
+  {
+    "model": "core.article",
+    "pk": 2,
+    "fields": {
+      "title": "Лазерная эпиляция: мифы и реальность",
+      "summary": "Развенчиваем 5 популярных мифов о лазерной эпиляции.",
+      "content": "Лазерная эпиляция — один из самых популярных методов...",
+      "image": "",
+      "published_at": "2025-03-01T10:00:00Z",
+      "is_published": true
+    }
+  },
+  {
+    "model": "core.article",
+    "pk": 3,
+    "fields": {
+      "title": "Ботокс после 30: когда начинать?",
+      "summary": "Отвечаем на самый частый вопрос наших пациентов.",
+      "content": "Многие женщины задаются вопросом о возрасте начала...",
+      "image": "",
+      "published_at": "2025-03-01T10:00:00Z",
+      "is_published": true
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 1,
+    "fields": {
+      "question": "Больно ли делать лазерную эпиляцию?",
+      "answer": "Процедура практически безболезненна. Используется охлаждение кожи.",
+      "added_at": "2025-01-15"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 2,
+    "fields": {
+      "question": "Как часто нужно делать чистку лица?",
+      "answer": "Рекомендуется 1 раз в месяц-полтора для нормальной кожи.",
+      "added_at": "2025-01-15"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 3,
+    "fields": {
+      "question": "Можно ли делать пилинг летом?",
+      "answer": "Поверхностные пилинги летом возможны при использовании SPF-защиты.",
+      "added_at": "2025-01-15"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 4,
+    "fields": {
+      "question": "Как долго длится эффект биоревитализации?",
+      "answer": "Эффект сохраняется 4-6 месяцев.",
+      "added_at": "2025-01-15"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 5,
+    "fields": {
+      "question": "Есть ли противопоказания для ботокса?",
+      "answer": "Беременность, лактация, нейромышечные заболевания являются противопоказаниями.",
+      "added_at": "2025-01-15"
+    }
+  },
+  {
+    "model": "core.contact",
+    "pk": 1,
+    "fields": {
+      "full_name": "Ковалёва Светлана",
+      "position": "Главный врач",
+      "phone": "+375 (29) 001-00-01",
+      "email": "kovaleva@bella.by",
+      "photo": "",
+      "description": "Специалист в области главный врач"
+    }
+  },
+  {
+    "model": "core.contact",
+    "pk": 2,
+    "fields": {
+      "full_name": "Романова Ирина",
+      "position": "Дерматолог-косметолог",
+      "phone": "+375 (29) 001-00-02",
+      "email": "romanova@bella.by",
+      "photo": "",
+      "description": "Специалист в области дерматолог-косметолог"
+    }
+  },
+  {
+    "model": "core.contact",
+    "pk": 3,
+    "fields": {
+      "full_name": "Соколов Дмитрий",
+      "position": "Лазерный технолог",
+      "phone": "+375 (29) 001-00-03",
+      "email": "sokolov@bella.by",
+      "photo": "",
+      "description": "Специалист в области лазерный технолог"
+    }
+  },
+  {
+    "model": "core.contact",
+    "pk": 4,
+    "fields": {
+      "full_name": "Захарова Анна",
+      "position": "Администратор",
+      "phone": "+375 (29) 001-00-04",
+      "email": "info@bella.by",
+      "photo": "",
+      "description": "Специалист в области администратор"
+    }
+  },
+  {
+    "model": "core.vacancy",
+    "pk": 1,
+    "fields": {
+      "title": "Дерматолог-косметолог",
+      "description": "Требуется опытный специалист. Опыт от 3 лет.",
+      "salary": "1500-2500 BYN",
+      "is_open": true,
+      "created_at": "2025-01-15"
+    }
+  },
+  {
+    "model": "core.vacancy",
+    "pk": 2,
+    "fields": {
+      "title": "Медсестра процедурного кабинета",
+      "description": "Работа в дружном коллективе. Гибкий график.",
+      "salary": "800-1200 BYN",
+      "is_open": true,
+      "created_at": "2025-01-15"
+    }
+  },
+  {
+    "model": "core.vacancy",
+    "pk": 3,
+    "fields": {
+      "title": "Администратор",
+      "description": "Встреча клиентов, запись, работа с кассой.",
+      "salary": "700-1000 BYN",
+      "is_open": true,
+      "created_at": "2025-01-15"
+    }
+  },
+  {
+    "model": "core.promo",
+    "pk": 1,
+    "fields": {
+      "code": "BELLA10",
+      "description": "Скидка 10% на все услуги",
+      "discount_percent": 10,
+      "valid_from": "2026-05-16",
+      "valid_to": "2026-06-15",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.promo",
+    "pk": 2,
+    "fields": {
+      "code": "SUMMER20",
+      "description": "Скидка 20% на все услуги",
+      "discount_percent": 20,
+      "valid_from": "2026-05-20",
+      "valid_to": "2026-07-20",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.promo",
+    "pk": 3,
+    "fields": {
+      "code": "OLD15",
+      "description": "Скидка 15% на все услуги",
+      "discount_percent": 15,
+      "valid_from": "2024-01-01",
+      "valid_to": "2024-12-31",
+      "is_active": true
+    }
+  }
+]

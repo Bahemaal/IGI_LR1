@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Услуги{% endblock %}
+{% block content %}
+<h1>Услуги</h1>
+<form method="get" style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:16px;margin-bottom:20px">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+        <div><label>Поиск<br><input type="text" name="search" value="{{ form.search.value|default:'' }}" placeholder="Название..." style="padding:6px;border:1px solid #ccc;border-radius:4px"></label></div>
+        <div><label>Категория<br>{{ form.category }}</label></div>
+        <div><label>Цена от<br><input type="number" name="min_price" value="{{ form.min_price.value|default:'' }}" style="width:90px;padding:6px;border:1px solid #ccc;border-radius:4px"></label></div>
+        <div><label>Цена до<br><input type="number" name="max_price" value="{{ form.max_price.value|default:'' }}" style="width:90px;padding:6px;border:1px solid #ccc;border-radius:4px"></label></div>
+        <div><label>Сортировка<br>{{ form.sort }}</label></div>
+        <div><button type="submit" class="btn">Найти</button></div>
+
+        <select onchange="setCurrency(this.value)">
+          <option value="BYN">BYN</option>
+          <option value="USD">USD</option>
+          <option value="RUB">RUB</option>
+        </select>
+
+        <script>
+        function setCurrency(cur) {
+          fetch('/set-currency/', {method: 'POST', body: JSON.stringify({currency: cur})})
+            .then(() => location.reload());
+        }
+        </script>
+    </div>
+</form>
+
+<table>
+<tr><th>Название</th><th>Категория</th><th>Цена</th><th>Длительность</th></tr>
+{% for s in services %}
+<tr>
+    <td>{{ s.name }}</td>
+    <td>{{ s.category }}</td>
+    {% load custom_tags %}
+    <td>{{ s.price|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</td>
+    <td>{{ s.duration }} мин</td>
+</tr>
+{% empty %}<tr><td colspan="4">Ничего не найдено</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

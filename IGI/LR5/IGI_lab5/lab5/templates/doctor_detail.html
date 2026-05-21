@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{{ doctor.full_name }}{% endblock %}
+{% block content %}
+<h1>{{ doctor.full_name }}</h1>
+{% if doctor.photo %}<img src="{{ doctor.photo.url }}" style="max-height:200px;border-radius:8px;margin-bottom:12px">{% endif %}
+<p><strong>Категория:</strong> {{ doctor.category }}</p>
+<p><strong>Специализация:</strong> {{ doctor.specialization }}</p>
+<p><strong>Стаж:</strong> {{ doctor.experience }} лет</p>
+<p><strong>Телефон:</strong> {{ doctor.phone }}</p>
+
+<h3 style="margin-top:20px">Оказываемые услуги</h3>
+<ul>
+{% for s in doctor.services.all %}
+<li>{{ s.name }} — {{ s.price }} руб.</li>
+{% empty %}<li>Не указаны</li>
+{% endfor %}
+</ul>
+
+<h3 style="margin-top:20px">Расписание</h3>
+<table>
+<tr><th>День</th><th>Кабинет</th><th>Начало</th><th>Конец</th></tr>
+{% for sc in schedules %}
+<tr>
+    <td>{{ sc.get_weekday_display }}</td>
+    <td>{{ sc.cabinet }}</td>
+    <td>{{ sc.time_start }}</td>
+    <td>{{ sc.time_end }}</td>
+</tr>
+{% empty %}<tr><td colspan="4">Расписание не указано</td></tr>
+{% endfor %}
+</table>
+<p style="margin-top:16px">
+    <a href="/appointment/create/" class="btn">Записаться</a>
+    <a href="/doctors/" class="btn btn-sm" style="margin-left:8px">← Назад</a>
+</p>
+{% endblock %}

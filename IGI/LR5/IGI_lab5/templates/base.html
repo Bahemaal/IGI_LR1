@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Косметологический центр{% endblock %}</title>
+    {% load static %}
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; }
+        nav { background: #5a3e8c; color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        nav a { color: #fff; text-decoration: none; margin-right: 12px; }
+        nav a:hover { text-decoration: underline; }
+        .main { padding: 24px 20px; max-width: 1100px; margin: 0 auto; }
+        .messages { padding: 10px 20px; }
+        .messages li { list-style: none; padding: 8px 12px; margin-bottom: 6px; border-radius: 4px; }
+        .messages li.success { background: #d4edda; color: #155724; }
+        .messages li.error   { background: #f8d7da; color: #721c24; }
+        .messages li.warning { background: #fff3cd; color: #856404; }
+        footer { background: #5a3e8c; color: #ccc; text-align: center; padding: 12px; margin-top: 40px; font-size: 13px; }
+        .btn { display: inline-block; padding: 8px 16px; background: #5a3e8c; color: #fff; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; }
+        .btn:hover { background: #7b57b5; }
+        .btn-danger { background: #c0392b; }
+        .btn-sm { padding: 4px 10px; font-size: 13px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        table th, table td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; }
+        table th { background: #ede8f5; }
+        @font-face {
+        font-family: "nbrb";
+        src: url("{% static 'fonts/BYN.ttf' %}") format("truetype");
+        font-weight: normal;
+        font-style: normal;}
+        .nbrb-icon {
+            font-family: "nbrb" !important;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <div>
+        <a href="/">Главная</a>
+        <a href="/about/">О нас</a>
+        <a href="/news/">Новости</a>
+        <a href="/doctors/">Врачи</a>
+        <a href="/services/">Услуги</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/contacts/">Контакты</a>
+        <a href="/vacancies/">Вакансии</a>
+        <a href="/reviews/">Отзывы</a>
+        <a href="/promos/">Промокоды</a>
+        <a href="/multitasking/">Многозадачность*</a>
+    </div>
+    <div>
+        {% if user.is_authenticated %}
+            <strong>{{ user.username }}</strong> |
+            {% if user.is_staff %}
+                <a href="/admin/">Админ</a> |
+                <a href="/statistics/">Статистика</a> |
+            {% elif user.doctor_profile %}
+                <a href="/doctor/profile/">Кабинет врача</a> |
+            {% else %}
+                <a href="/profile/">Личный кабинет</a> |
+            {% endif %}
+            <form method="post" action="{% url 'logout' %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" style="background:none;border:none;color:#ffcdd2;cursor:pointer">Выход</button>
+            </form>
+        {% else %}
+            <a href="/register/client/">Регистрация</a> |
+            <a href="/login/">Вход</a>
+        {% endif %}
+    </div>
+</nav>
+
+{% if messages %}
+<ul class="messages">
+    {% for m in messages %}
+    <li class="{{ m.tags }}">{{ m }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="main">{% block content %}{% endblock %}</div>
+
+<footer>
+    &copy; 2025 Косметологический центр. Все права защищены.
+    <a href="/privacy/" style="margin-top:16px;color:#ccc">Конфиденциальность</a>
+</footer>
+</body>
+</html>

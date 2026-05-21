@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Отменить запись{% endblock %}
+{% block content %}
+<h1>Отменить запись?</h1>
+<p>Врач: {{ appt.doctor.full_name }} | {{ appt.date_time|date:"d/m/Y H:i" }} | {{ appt.service.name }}</p>
+<form method="post" style="margin-top:16px">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Да, отменить</button>
+    <a href="/profile/" class="btn btn-sm" style="margin-left:8px">Нет, назад</a>
+</form>
+{% endblock %}

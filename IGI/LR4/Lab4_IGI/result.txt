@@ -1,0 +1,24 @@
+
+--- MAIN TASK ---
+Words: ['Some', 'incredibly', 'interesting', 'long', 'text', 'made', 'up', 'of', 'different', 'words', 'Hello', 'AAAAAAAAAAAA', 'aDa']
+
+Highlighted text:
+Some incredibly interesting long text made up of different words. Hello? AAAAAAAAAAAA :) _?_aD_?_a
+
+Words with length < 7: 9
+
+Shortest word ending with 'a': aDa
+
+Words sorted by length:
+['AAAAAAAAAAAA', 'interesting', 'incredibly', 'different', 'words', 'Hello', 'Some', 'long', 'text', 'made', 'aDa', 'up', 'of']
+
+--- COMMON TASK ---
+Total sentences: 3
+Declarative: 1
+Question: 1
+Exclamatory: 0
+
+Average word length: 5.77
+Average sentence length: 4.33
+
+Smileys count: 1

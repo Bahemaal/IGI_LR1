@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Контакты{% endblock %}
+{% block content %}
+<h1>Контакты</h1>
+<div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:16px">
+{% for c in contacts %}
+<div style="border:1px solid #ddd;border-radius:6px;padding:12px;width:220px;background:#fff">
+    {% if c.photo %}<img src="{{ c.photo.url }}" style="width:100%;height:130px;object-fit:cover;border-radius:4px">{% endif %}
+    <strong>{{ c.full_name }}</strong><br>
+    <em>{{ c.position }}</em><br>
+    <span>📞 {{ c.phone }}</span><br>
+    {% if c.email %}<span>✉ {{ c.email }}</span><br>{% endif %}
+    {% if c.description %}<small>{{ c.description }}</small>{% endif %}
+</div>
+{% empty %}<p>Контакты не указаны.</p>
+{% endfor %}
+</div>
+{% endblock %}

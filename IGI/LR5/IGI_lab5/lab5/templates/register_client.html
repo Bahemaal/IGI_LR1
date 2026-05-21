@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация клиента{% endblock %}
+{% block content %}
+<h1>Регистрация</h1>
+<form method="post" style="max-width:450px;background:#fff;padding:20px;border-radius:8px;border:1px solid #ddd">
+    {% csrf_token %}
+    {% for field in form %}
+    <p><label>{{ field.label }}<br>{{ field }}</label>
+    {% if field.help_text %}<small style="color:#888">{{ field.help_text }}</small>{% endif %}
+    {% if field.errors %}<span style="color:red">{{ field.errors }}</span>{% endif %}</p>
+    {% endfor %}
+    <button type="submit" class="btn">Зарегистрироваться</button>
+</form>
+
+<script>
+/* Клиентская валидация телефона */
+document.querySelector('form').addEventListener('submit', function(e) {
+    const phone = document.querySelector('[name="phone"]');
+    if (phone && !/^\+375 \(\d{2}\) \d{3}-\d{2}-\d{2}$/.test(phone.value)) {
+        e.preventDefault();
+        alert('Телефон: +375 (29) XXX-XX-XX');
+        phone.focus();
+    }
+});
+</script>
+{% endblock %}

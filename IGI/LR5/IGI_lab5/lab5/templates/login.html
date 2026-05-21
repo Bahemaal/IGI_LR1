@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<h1>Вход</h1>
+<form method="post" style="max-width:400px;background:#fff;padding:20px;border-radius:8px;border:1px solid #ddd">
+    {% csrf_token %}
+    {% for field in form %}
+    <p><label>{{ field.label }}<br>{{ field }}</label>
+    {% if field.errors %}<span style="color:red">{{ field.errors }}</span>{% endif %}</p>
+    {% endfor %}
+    <button type="submit" class="btn">Войти</button>
+    <p style="margin-top:12px"><a href="/register/client/">Нет аккаунта? Зарегистрируйтесь</a></p>
+</form>
+{% endblock %}

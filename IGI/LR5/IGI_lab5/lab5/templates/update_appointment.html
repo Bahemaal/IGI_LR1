@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Изменить запись{% endblock %}
+{% block content %}
+<h1>Изменить запись #{{ appt.pk }}</h1>
+<p>Врач: {{ appt.doctor.full_name }} | Услуга: {{ appt.service.name }} | {{ appt.date_time|date:"d/m/Y H:i" }}</p>
+<form method="post" style="max-width:400px;background:#fff;padding:20px;border-radius:8px;border:1px solid #ddd;margin-top:12px">
+    {% csrf_token %}
+    {% for field in form %}
+    <p><label>{{ field.label }}<br>{{ field }}</label></p>
+    {% endfor %}
+    <button type="submit" class="btn">Сохранить</button>
+    <a href="/profile/" class="btn btn-sm" style="margin-left:8px">Отмена</a>
+</form>
+{% endblock %}

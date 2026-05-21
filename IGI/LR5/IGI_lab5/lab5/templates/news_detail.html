@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<h1>{{ article.title }}</h1>
+<small style="color:#888">{{ article.published_at|date:"d/m/Y H:i" }}</small>
+{% if article.image %}<br><img src="{{ article.image.url }}" style="max-width:100%;margin:12px 0;border-radius:6px">{% endif %}
+<div style="margin-top:12px;line-height:1.7">{{ article.content|linebreaks }}</div>
+<p style="margin-top:20px"><a href="/news/" class="btn">← Назад</a></p>
+{% endblock %}

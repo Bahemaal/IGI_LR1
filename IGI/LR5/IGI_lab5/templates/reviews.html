@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Отзывы{% endblock %}
+{% block content %}
+<h1>Отзывы клиентов</h1>
+
+{% if user.is_authenticated and form %}
+<div style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:16px;margin-bottom:20px">
+    <h3>Оставить отзыв</h3>
+    <form method="post" action="/reviews/add/">
+        {% csrf_token %}
+        {% for field in form %}
+        <p><label>{{ field.label }}</label><br>{{ field }}
+        {% if field.errors %}<span style="color:red">{{ field.errors }}</span>{% endif %}</p>
+        {% endfor %}
+        <button type="submit" class="btn">Отправить</button>
+    </form>
+</div>
+{% elif not user.is_authenticated %}
+<p><a href="/login/">Войдите</a>, чтобы оставить отзыв.</p>
+{% endif %}
+
+{% for r in reviews %}
+<div style="border:1px solid #ddd;border-radius:6px;padding:12px;margin-bottom:10px;background:#fff">
+    <strong>{{ r.client.full_name }}</strong>
+    <span style="color:#f5a623">{% for i in "12345"|make_list %}{% if forloop.counter <= r.rating %}★{% else %}☆{% endif %}{% endfor %}</span>
+    <small style="color:#888">{{ r.created_at|date:"d/m/Y" }}</small>
+    <p style="margin-top:6px">{{ r.text }}</p>
+</div>
+{% empty %}<p>Отзывов пока нет.</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}О компании{% endblock %}
+{% block content %}
+<h1>О компании</h1>
+{% if company %}
+    {% if company.logo %}<img src="{{ company.logo.url }}" style="max-height:80px;margin-bottom:12px">{% endif %}
+    <p><strong>{{ company.name }}</strong>{% if company.founded_year %}, основана в {{ company.founded_year }}{% endif %}</p>
+    <p style="margin-top:12px">{{ company.description }}</p>
+    {% if company.video_url %}<p><a href="{{ company.video_url }}" target="_blank">▶ Смотреть видео</a></p>{% endif %}
+    {% if company.requisites %}<h3 style="margin-top:20px">Реквизиты</h3><pre>{{ company.requisites }}</pre>{% endif %}
+{% else %}
+    <p>Информация о компании скоро появится.</p>
+{% endif %}
+{% endblock %}
