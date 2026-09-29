@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}Оформление заказа{% endblock %}
+{% block content %}
+
+<h1>Оформление заказа</h1>
+
+<section aria-labelledby="summary-heading" class="checkout-summary">
+    <h2 id="summary-heading">Ваш заказ</h2>
+    <table>
+        <tr><th scope="col">Услуга</th><th scope="col">Кол-во</th><th scope="col">Сумма</th></tr>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.service.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.line_total|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p class="cart-total">Итого к оплате: <strong>{{ cart_total|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</strong></p>
+</section>
+
+<section aria-labelledby="checkout-form-heading">
+    <h2 id="checkout-form-heading">Данные для оплаты</h2>
+    <form method="post" novalidate class="checkout-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <p class="form-error">{{ form.non_field_errors }}</p>
+        {% endif %}
+        <div class="form-row">
+            <label for="{{ form.full_name.id_for_label }}">ФИО</label>
+            {{ form.full_name }}
+            {{ form.full_name.errors }}
+        </div>
+        <div class="form-row">
+            <label for="{{ form.phone.id_for_label }}">Телефон</label>
+            {{ form.phone }}
+            {{ form.phone.errors }}
+        </div>
+        <div class="form-row">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="form-row">
+            <label for="{{ form.address.id_for_label }}">Адрес / комментарий</label>
+            {{ form.address }}
+        </div>
+        <div class="form-row">
+            <label for="{{ form.promo_code.id_for_label }}">Промокод</label>
+            {{ form.promo_code }}
+            {{ form.promo_code.errors }}
+        </div>
+        <fieldset class="form-row">
+            <legend>Способ оплаты</legend>
+            {{ form.payment_method }}
+        </fieldset>
+        <button type="submit" class="btn">Оплатить</button>
+    </form>
+</section>
+
+{% endblock %}

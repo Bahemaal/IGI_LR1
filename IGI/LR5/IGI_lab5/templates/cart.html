@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}Корзина{% endblock %}
+{% block content %}
+
+<h1>Корзина</h1>
+
+{% if cart_items %}
+<table>
+    <caption class="visually-hidden">Товары в корзине</caption>
+    <tr>
+        <th scope="col">Услуга</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Сумма</th>
+        <th scope="col">Действие</th>
+    </tr>
+    {% for item in cart_items %}
+    <tr>
+        <td><a href="{% url 'service_detail' item.service.pk %}">{{ item.service.name }}</a></td>
+        <td>{{ item.service.price|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</td>
+        <td>
+            <form method="post" action="{% url 'cart_update' item.service.pk %}" class="qty-form">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="20" style="width:60px">
+                <button type="submit" class="btn btn-sm">Обновить</button>
+            </form>
+        </td>
+        <td>{{ item.line_total|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</td>
+        <td>
+            <form method="post" action="{% url 'cart_remove' item.service.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p class="cart-total">
+    Итого: <strong>{{ cart_total|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</strong>
+</p>
+
+<p>
+    <a href="{% url 'services' %}" class="btn btn-sm">Продолжить выбор услуг</a>
+    <a href="{% url 'checkout' %}" class="btn">Оформить заказ</a>
+</p>
+
+{% else %}
+<p>Ваша корзина пуста. <a href="{% url 'services' %}">Перейти к услугам</a>.</p>
+{% endif %}
+
+{% endblock %}
