@@ -1,5 +1,6 @@
 from django import template
 from ..currency import get_exchange_rates
+import os
 
 register = template.Library()
 
@@ -27,3 +28,25 @@ def convert_price(price, currency='BYN'):
     except Exception:
         # Если что-то пошло не так — возвращаем оригинальную цену
         return round(price_float, 2)
+
+
+@register.filter
+def thumb_url(image_field):
+    """
+    Для адаптивных изображений (srcset): возвращает URL уменьшенной версии
+    файла (имя_small.ext), если она была сгенерирована рядом с оригиналом.
+    Если уменьшенной версии нет — возвращает исходный URL.
+    """
+    if not image_field:
+        return ""
+    try:
+        url = image_field.url
+        path = image_field.path
+    except (ValueError, AttributeError):
+        return ""
+    name, ext = os.path.splitext(path)
+    small_path = f"{name}_small{ext}"
+    if os.path.exists(small_path):
+        url_name, url_ext = os.path.splitext(url)
+        return f"{url_name}_small{url_ext}"
+    return url

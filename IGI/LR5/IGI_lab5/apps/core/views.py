@@ -15,13 +15,15 @@ from django.utils import timezone
 
 from .forms import (
     ClientRegistrationForm, AppointmentForm,
-    AppointmentUpdateForm, ReviewForm, ServiceFilterForm
+    AppointmentUpdateForm, ReviewForm, ServiceFilterForm, CheckoutForm
 )
 from .models import (
     Doctor, Service, Appointment, Client, ServiceCategory,
     Article, FAQ, Contact, Vacancy, Review, Promo, Schedule,
-    Sale, CompanyInfo, Cabinet
+    Sale, CompanyInfo, Cabinet, Banner, Partner, Order, OrderItem,
+    CompanyHistoryEvent, Certificate
 )
+from .cart import Cart
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +34,9 @@ def home(request):
     latest_article = Article.objects.filter(is_published=True).first()
     doctors = Doctor.objects.filter(is_active=True)[:6]
     services = Service.objects.filter(is_active=True)[:8]
+    banners = Banner.objects.filter(is_active=True)
+    partners = Partner.objects.filter(is_active=True)
+    company = CompanyInfo.objects.first()
     now = timezone.now()
     user_tz = timezone.get_current_timezone()
     cal_text = calendar.month(now.year, now.month)
@@ -39,6 +44,9 @@ def home(request):
         "latest_article": latest_article,
         "doctors": doctors,
         "services": services,
+        "banners": banners,
+        "partners": partners,
+        "company": company,
         "now_local": now,
         "cal_text": cal_text,
         "user_tz": user_tz,
@@ -49,7 +57,23 @@ def home(request):
 
 def about(request):
     company = CompanyInfo.objects.first()
-    return render(request, "about.html", {"company": company})
+    history = CompanyHistoryEvent.objects.all()
+    certificates = Certificate.objects.all()
+    video_embed_url = None
+    if company and company.video_url:
+        url = company.video_url
+        if "youtu.be/" in url:
+            vid = url.split("youtu.be/")[-1].split("?")[0]
+            video_embed_url = f"https://www.youtube-nocookie.com/embed/{vid}"
+        elif "watch?v=" in url:
+            vid = url.split("watch?v=")[-1].split("&")[0]
+            video_embed_url = f"https://www.youtube-nocookie.com/embed/{vid}"
+        elif "youtube.com/embed/" in url or "youtube-nocookie.com/embed/" in url:
+            video_embed_url = url.replace("www.youtube.com", "www.youtube-nocookie.com")
+    return render(request, "about.html", {
+        "company": company, "history": history, "certificates": certificates,
+        "video_embed_url": video_embed_url,
+    })
 
 
 def news(request):
@@ -136,7 +160,121 @@ def services_list(request):
             qs = qs.filter(Q(name__icontains=search) | Q(description__icontains=search))
         qs = qs.order_by(sort)
 
-    return render(request, "services.html", {"services": qs, "form": form})
+    return render(request, "services.html", {
+        "services": qs, "form": form,
+        "all_service_names": Service.objects.filter(is_active=True).values_list("name", flat=True),
+    })
+
+
+def service_detail(request, pk):
+    service = get_object_or_404(Service, pk=pk, is_active=True)
+    related = Service.objects.filter(category=service.category, is_active=True).exclude(pk=pk)[:4]
+    doctors = service.doctors.filter(is_active=True)
+    return render(request, "service_detail.html", {
+        "service": service, "related": related, "doctors": doctors,
+    })
+
+
+# ─────────── КОРЗИНА ────────────
+
+def cart_view(request):
+    cart = Cart(request)
+    return render(request, "cart.html", {"cart_items": cart.get_items(), "cart_total": cart.get_total()})
+
+
+def cart_add(request, pk):
+    service = get_object_or_404(Service, pk=pk, is_active=True)
+    cart = Cart(request)
+    quantity = 1
+    if request.method == "POST":
+        try:
+            quantity = max(1, int(request.POST.get("quantity", 1)))
+        except (TypeError, ValueError):
+            quantity = 1
+    cart.add(service, quantity)
+    messages.success(request, f'«{service.name}» добавлена в корзину.')
+    return redirect(request.POST.get("next") or "cart")
+
+
+def cart_update(request, pk):
+    if request.method == "POST":
+        try:
+            quantity = int(request.POST.get("quantity", 1))
+        except (TypeError, ValueError):
+            quantity = 1
+        Cart(request).update(pk, quantity)
+    return redirect("cart")
+
+
+def cart_remove(request, pk):
+    Cart(request).remove(pk)
+    messages.info(request, "Позиция удалена из корзины.")
+    return redirect("cart")
+
+
+def checkout_view(request):
+    cart = Cart(request)
+    if len(cart) == 0:
+        messages.warning(request, "Ваша корзина пуста.")
+        return redirect("services")
+
+    items = cart.get_items()
+    subtotal = cart.get_total()
+
+    initial = {}
+    client = None
+    if request.user.is_authenticated and hasattr(request.user, "client_profile"):
+        client = request.user.client_profile
+        initial = {
+            "full_name": client.full_name,
+            "phone": client.phone,
+            "email": client.email,
+            "address": client.address,
+        }
+
+    total = subtotal
+
+    if request.method == "POST":
+        form = CheckoutForm(request.POST, initial=initial)
+        if form.is_valid():
+            promo = form.cleaned_data.get("promo_code")
+            if promo:
+                total = subtotal * (1 - promo.discount_percent / 100)
+            else:
+                total = subtotal
+
+            order = Order.objects.create(
+                client=client,
+                full_name=form.cleaned_data["full_name"],
+                phone=form.cleaned_data["phone"],
+                email=form.cleaned_data["email"],
+                address=form.cleaned_data["address"],
+                promo=promo,
+                payment_method=form.cleaned_data["payment_method"],
+                total_amount=total,
+                status="paid",
+            )
+            for item in items:
+                OrderItem.objects.create(
+                    order=order,
+                    service=item["service"],
+                    quantity=item["quantity"],
+                    price=item["service"].price,
+                )
+            cart.clear()
+            logger.info("New order #%d created for %s", order.pk, order.full_name)
+            return redirect("order_success", pk=order.pk)
+    else:
+        form = CheckoutForm(initial=initial)
+
+    return render(request, "checkout.html", {
+        "form": form, "cart_items": items, "cart_total": subtotal,
+    })
+
+
+def order_success(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    return render(request, "order_success.html", {"order": order})
 
 
 # ─────────── ВРАЧИ ────────────

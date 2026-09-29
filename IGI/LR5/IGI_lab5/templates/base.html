@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Косметологический центр: процедуры по уходу за кожей, запись к врачам-косметологам онлайн.">
+    <meta name="keywords" content="косметология, уход за кожей, запись к врачу, spa, красота">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B4%3C/text%3E%3C/svg%3E">
     <title>{% block title %}Косметологический центр{% endblock %}</title>
     {% load static %}
     <style>
@@ -34,9 +37,96 @@
             font-family: "nbrb" !important;
             font-weight: normal;
         }
+        .home-header { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+        .home-logo { height: 64px; width: auto; border-radius: 6px; }
+        .home-tagline { color: #666; margin-top: 4px; }
+        .home-clock { color: #888; font-size: 13px; margin-bottom: 20px; }
+        section { margin-top: 28px; }
+        .latest-article { background: #fff; border: 1px solid #ddd; padding: 16px; border-radius: 6px; }
+        .card-grid { display: flex; flex-wrap: wrap; gap: 16px; list-style: none; margin-top: 12px; padding: 0; }
+        .card-grid li { width: 200px; }
+        .card { border: 1px solid #ddd; border-radius: 6px; padding: 12px; background: #fff; height: 100%; }
+        .card-photo { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; margin-bottom: 6px; }
+        .banner-strip { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; }
+        .banner-item { flex: 0 0 auto; margin: 0; text-align: center; }
+        .banner-item img { max-height: 160px; border-radius: 6px; display: block; }
+        .banner-item figcaption { font-size: 13px; color: #666; margin-top: 4px; }
+        .partners-list { display: flex; flex-wrap: wrap; gap: 24px; list-style: none; padding: 0; margin-top: 12px; }
+        .partners-list li a { display: block; color: inherit; text-decoration: none; }
+        .partner-item { text-align: center; margin: 0; }
+        .partner-item img { height: 60px; width: auto; filter: grayscale(30%); }
+        .partner-item figcaption { font-size: 12px; color: #888; margin-top: 4px; }
+        .calendar-box { font-family: monospace; font-size: 13px; background: #fff; padding: 12px; border: 1px solid #ddd; display: inline-block; }
+        .home-cta { margin-top: 24px; }
+        .breadcrumbs { font-size: 13px; color: #888; margin-bottom: 16px; }
+        .breadcrumbs a { color: #5a3e8c; text-decoration: none; }
+        .product-category { color: #888; margin-top: 4px; }
+        .product-price { font-size: 20px; margin: 12px 0; }
+        .product-duration { color: #888; font-size: 14px; }
+        .add-to-cart-form { display: flex; align-items: center; gap: 8px; margin: 16px 0 24px; }
+        .add-to-cart-form input[type="number"] { width: 70px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
+        .cart-total { font-size: 18px; margin: 16px 0; }
+        .qty-form { display: flex; gap: 6px; align-items: center; }
+        .checkout-summary { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 16px; }
+        .checkout-form .form-row { margin-bottom: 14px; display: flex; flex-direction: column; gap: 4px; max-width: 420px; }
+        .checkout-form input[type="text"],
+        .checkout-form input[type="email"],
+        .checkout-form input[type="tel"],
+        .checkout-form textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .checkout-form fieldset { border: 1px solid #ddd; border-radius: 4px; padding: 10px 14px; }
+        .form-error { color: #c0392b; }
+        .order-success { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 24px; }
+        .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+        .company-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+        .company-logo { height: 70px; width: auto; border-radius: 6px; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 720px; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: 6px; }
+        .history-timeline { list-style: none; padding: 0; border-left: 3px solid #5a3e8c; margin-top: 12px; }
+        .history-timeline li { display: flex; gap: 16px; padding: 0 0 20px 20px; position: relative; }
+        .history-timeline li::before { content: ""; position: absolute; left: -8px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #5a3e8c; }
+        .history-year { font-weight: bold; color: #5a3e8c; min-width: 60px; flex-shrink: 0; }
+        .certificates-list { display: flex; flex-wrap: wrap; gap: 20px; list-style: none; padding: 0; margin-top: 12px; }
+        .certificate-item { margin: 0; text-align: center; width: 180px; }
+        .certificate-item img { width: 100%; height: 220px; object-fit: contain; background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 6px; box-sizing: border-box; }
+        .certificate-item figcaption { font-size: 13px; color: #666; margin-top: 6px; }
+        .faq-list .faq-item { border: 1px solid #ddd; border-radius: 5px; padding: 12px; margin-bottom: 10px; background: #fff; }
+        .faq-list dt { font-weight: bold; cursor: default; }
+        .faq-list dd { margin-top: 6px; margin-left: 0; }
+        .vacancy-list, .promo-list, .review-list, .news-list { list-style: none; padding: 0; }
+        .vacancy-list li, .promo-list li, .review-list li, .news-list li { margin-bottom: 14px; }
+        .promo-card { border: 2px solid #5a3e8c; }
+        .promo-code { font-size: 18px; color: #5a3e8c; }
+        .promo-expired { border: 1px solid #ccc; background: #f4f4f4; color: #888; }
+        .review-stars { color: #f5a623; }
+        .review-list blockquote { margin: 8px 0 0; padding-left: 12px; border-left: 3px solid #ddd; color: #444; }
+        .filter-form { display: flex; gap: 10px; margin-bottom: 16px; }
+        .filter-form input, .filter-form select { padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
+        .filter-form input[type="text"] { flex: 1; }
+        .doctor-meta { margin: 12px 0; }
+        .doctor-meta dt { font-weight: bold; float: left; width: 140px; clear: left; }
+        .doctor-meta dd { margin-left: 140px; margin-bottom: 6px; }
+        .form-row { margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px; max-width: 420px; }
+        .form-row input, .form-row select, .form-row textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .form-card { max-width: 450px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+        .form-footer-link { margin-top: 12px; }
+        .inline-actions { display: flex; gap: 8px; align-items: center; }
+        .stat-cards { display: flex; flex-wrap: wrap; gap: 14px; margin: 16px 0 24px; list-style: none; padding: 0; }
+        .stat-card { border-radius: 6px; padding: 14px; min-width: 130px; text-align: center; background: #ede8f5; }
+        .stat-card dt { font-size: 12px; order: 2; }
+        .stat-card dd { font-size: 26px; font-weight: bold; margin: 0; order: 1; }
+        .stat-success { background: #d4edda; }
+        .stat-info { background: #cce5ff; }
+        .stat-warning { background: #fff3cd; }
+        .stat-neutral { background: #ede8f5; }
+        .stat-table { max-width: 400px; }
+        .ip-info dt { font-weight: bold; float: left; width: 110px; clear: left; }
+        .ip-info dd { margin-left: 110px; margin-bottom: 4px; }
+        .notes-box { min-height: 100px; background: #fffde7; border: 1px dashed #d4c76a; border-radius: 6px; padding: 12px; }
+        .notes-box:focus { outline: 2px solid #5a3e8c; background: #fff; }
     </style>
 </head>
 <body>
+<header>
 <nav>
     <div>
         <a href="/">Главная</a>
@@ -50,6 +140,7 @@
         <a href="/reviews/">Отзывы</a>
         <a href="/promos/">Промокоды</a>
         <a href="/multitasking/">Многозадачность*</a>
+        <a href="{% url 'cart' %}">Корзина{% if request.session.cart %} ({{ request.session.cart|length }}){% endif %}</a>
     </div>
     <div>
         {% if user.is_authenticated %}
@@ -72,6 +163,7 @@
         {% endif %}
     </div>
 </nav>
+</header>
 
 {% if messages %}
 <ul class="messages">
@@ -81,10 +173,10 @@
 </ul>
 {% endif %}
 
-<div class="main">{% block content %}{% endblock %}</div>
+<main class="main">{% block content %}{% endblock %}</main>
 
 <footer>
-    &copy; 2025 Косметологический центр. Все права защищены.
+    &copy; 2026 Косметологический центр. Все права защищены.
     <a href="/privacy/" style="margin-top:16px;color:#ccc">Конфиденциальность</a>
 </footer>
 </body>

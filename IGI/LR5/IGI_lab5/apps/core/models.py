@@ -309,3 +309,119 @@ class CompanyInfo(models.Model):
     class Meta:
         verbose_name = 'О компании'
         verbose_name_plural = 'О компании'
+
+
+class Banner(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Заголовок')
+    image = models.ImageField(upload_to='banners/', verbose_name='Изображение')
+    link = models.URLField(blank=True, verbose_name='Ссылка при клике')
+    order = models.PositiveIntegerField(default=0, verbose_name='Порядок показа')
+    is_active = models.BooleanField(default=True, verbose_name='Активен')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Рекламный баннер'
+        verbose_name_plural = 'Рекламные баннеры'
+        ordering = ['order']
+
+
+class Partner(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Название компании')
+    logo = models.ImageField(upload_to='partners/', verbose_name='Логотип')
+    website = models.URLField(verbose_name='Сайт компании')
+    order = models.PositiveIntegerField(default=0, verbose_name='Порядок показа')
+    is_active = models.BooleanField(default=True, verbose_name='Активен')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Партнёр'
+        verbose_name_plural = 'Партнёры'
+        ordering = ['order']
+
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('new', 'Новый'),
+        ('paid', 'Оплачен'),
+        ('cancelled', 'Отменён'),
+    ]
+    PAYMENT_CHOICES = [
+        ('card', 'Банковская карта'),
+        ('cash', 'Наличные при визите'),
+    ]
+    client = models.ForeignKey(
+        Client, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='orders', verbose_name='Клиент'
+    )
+    full_name = models.CharField(max_length=200, verbose_name='ФИО')
+    phone = models.CharField(max_length=20, verbose_name='Телефон')
+    email = models.EmailField(blank=True, verbose_name='Email')
+    address = models.TextField(blank=True, verbose_name='Адрес доставки')
+    promo = models.ForeignKey(
+        Promo, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод'
+    )
+    payment_method = models.CharField(
+        max_length=20, choices=PAYMENT_CHOICES, default='card', verbose_name='Способ оплаты'
+    )
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Итоговая сумма')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name='Статус')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата оформления')
+
+    def __str__(self):
+        return f'Заказ №{self.pk} — {self.full_name} ({self.total_amount} руб.)'
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+        ordering = ['-created_at']
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name='Заказ')
+    service = models.ForeignKey(Service, on_delete=models.PROTECT, verbose_name='Услуга')
+    quantity = models.PositiveIntegerField(default=1, verbose_name='Количество')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена на момент заказа')
+
+    @property
+    def line_total(self):
+        return self.price * self.quantity
+
+    def __str__(self):
+        return f'{self.service.name} × {self.quantity}'
+
+    class Meta:
+        verbose_name = 'Позиция заказа'
+        verbose_name_plural = 'Позиции заказа'
+
+
+class CompanyHistoryEvent(models.Model):
+    year = models.PositiveIntegerField(verbose_name='Год')
+    title = models.CharField(max_length=200, verbose_name='Событие')
+    description = models.TextField(blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return f'{self.year} — {self.title}'
+
+    class Meta:
+        verbose_name = 'Событие истории компании'
+        verbose_name_plural = 'История компании'
+        ordering = ['year']
+
+
+class Certificate(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Название')
+    image = models.ImageField(upload_to='certificates/', verbose_name='Скан/фото сертификата')
+    issued_year = models.PositiveIntegerField(blank=True, null=True, verbose_name='Год выдачи')
+    order = models.PositiveIntegerField(default=0, verbose_name='Порядок показа')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Сертификат'
+        verbose_name_plural = 'Сертификаты'
+        ordering = ['order']

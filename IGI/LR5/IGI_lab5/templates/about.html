@@ -2,13 +2,102 @@
 {% block title %}О компании{% endblock %}
 {% block content %}
 <h1>О компании</h1>
+
 {% if company %}
-    {% if company.logo %}<img src="{{ company.logo.url }}" style="max-height:80px;margin-bottom:12px">{% endif %}
-    <p><strong>{{ company.name }}</strong>{% if company.founded_year %}, основана в {{ company.founded_year }}{% endif %}</p>
-    <p style="margin-top:12px">{{ company.description }}</p>
-    {% if company.video_url %}<p><a href="{{ company.video_url }}" target="_blank">▶ Смотреть видео</a></p>{% endif %}
-    {% if company.requisites %}<h3 style="margin-top:20px">Реквизиты</h3><pre>{{ company.requisites }}</pre>{% endif %}
+<header class="company-header">
+    {% if company.logo %}<img src="{{ company.logo.url }}" alt="Логотип {{ company.name }}" class="company-logo">{% endif %}
+    <div>
+        <p><strong>{{ company.name }}</strong>{% if company.founded_year %}, работаем с <time datetime="{{ company.founded_year }}">{{ company.founded_year }}</time> года{% endif %}</p>
+    </div>
+</header>
+
+<section aria-labelledby="desc-heading">
+    <h2 id="desc-heading">О нас</h2>
+    <p>{{ company.description }}</p>
+</section>
+
+{% if video_embed_url %}
+<section aria-labelledby="video-heading">
+    <h2 id="video-heading">Видео о компании</h2>
+    <div class="video-wrapper">
+        <iframe src="{{ video_embed_url }}" title="Видео о компании {{ company.name }}"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+    </div>
+</section>
+{% elif company.video_url %}
+<p><a href="{{ company.video_url }}" target="_blank" rel="noopener noreferrer">▶ Смотреть видео о компании</a></p>
+{% endif %}
+
+{% if history %}
+<section aria-labelledby="history-heading">
+    <h2 id="history-heading">История компании</h2>
+    <ol class="history-timeline">
+        {% for event in history %}
+        <li>
+            <time datetime="{{ event.year }}" class="history-year">{{ event.year }}</time>
+            <div class="history-body">
+                <strong>{{ event.title }}</strong>
+                {% if event.description %}<p>{{ event.description }}</p>{% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+</section>
+{% endif %}
+
+{% if certificates %}
+<section aria-labelledby="certificates-heading">
+    <h2 id="certificates-heading">Сертификаты и лицензии</h2>
+    <ul class="certificates-list">
+        {% for c in certificates %}
+        <li>
+            <figure class="certificate-item">
+                <a href="{{ c.image.url }}" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ c.image.url }}" alt="Сертификат: {{ c.title }}" loading="lazy">
+                </a>
+                <figcaption>{{ c.title }}{% if c.issued_year %} ({{ c.issued_year }}){% endif %}</figcaption>
+            </figure>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+{% if company.requisites %}
+<section aria-labelledby="requisites-heading">
+    <h2 id="requisites-heading">Реквизиты</h2>
+    <pre>{{ company.requisites }}</pre>
+</section>
+{% endif %}
+
+<section aria-labelledby="media-demo-heading">
+    <h2 id="media-demo-heading">Способы встраивания медиа (демонстрация)</h2>
+
+    <h3>1. &lt;video&gt;</h3>
+    <video controls muted loop width="480"
+           poster="{{ MEDIA_URL }}certificates/certificate_1.png">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Ваш браузер не поддерживает тег video.
+    </video>
+
+    <h3>2. &lt;iframe&gt;</h3>
+    <div class="video-wrapper" style="max-width:480px">
+        <iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" title="Демонстрация iframe"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <h3>3. &lt;object&gt; (прайс-лист PDF)</h3>
+    <object data="{{ MEDIA_URL }}documents/price_list.pdf" type="application/pdf" width="480" height="300">
+        <p>PDF не отображается. <a href="{{ MEDIA_URL }}documents/price_list.pdf">Открыть файл</a>.</p>
+    </object>
+
+    <h3>4. &lt;embed&gt; (тот же PDF)</h3>
+    <embed src="{{ MEDIA_URL }}documents/price_list.pdf" type="application/pdf" width="480" height="300">
+</section>
+
 {% else %}
-    <p>Информация о компании скоро появится.</p>
+<p>Информация о компании скоро появится.</p>
 {% endif %}
 {% endblock %}

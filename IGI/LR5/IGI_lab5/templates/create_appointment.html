@@ -2,11 +2,14 @@
 {% block title %}Запись на приём{% endblock %}
 {% block content %}
 <h1>Запись на приём</h1>
-<form method="post" style="max-width:500px;background:#fff;padding:20px;border-radius:8px;border:1px solid #ddd">
+<form method="post" class="form-card" novalidate>
     {% csrf_token %}
     {% for field in form %}
-    <p><label>{{ field.label }}<br>{{ field }}</label>
-    {% if field.errors %}<span style="color:red">{{ field.errors }}</span>{% endif %}</p>
+    <div class="form-row">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="form-error">{{ field.errors }}</span>{% endif %}
+    </div>
     {% endfor %}
     <button type="submit" class="btn">Записаться</button>
 </form>

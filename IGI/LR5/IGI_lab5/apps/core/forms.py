@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import Client, Doctor, Service, Appointment, Review
+from .models import Client, Doctor, Service, Appointment, Review, Order
 
 
 def validate_phone_form(value):
@@ -104,3 +104,43 @@ class ServiceFilterForm(forms.Form):
         from .models import ServiceCategory
         super().__init__(*args, **kwargs)
         self.fields["category"].queryset = ServiceCategory.objects.all()
+
+
+class CheckoutForm(forms.ModelForm):
+    promo_code = forms.CharField(
+        required=False, max_length=50, label="Промокод",
+        widget=forms.TextInput(attrs={"placeholder": "Если есть"})
+    )
+
+    class Meta:
+        model = Order
+        fields = ["full_name", "phone", "email", "address", "payment_method", "promo_code"]
+        widgets = {
+            "address": forms.Textarea(attrs={"rows": 3}),
+            "phone": forms.TextInput(attrs={"placeholder": "+375 (29) XXX-XX-XX"}),
+        }
+        labels = {
+            "full_name": "ФИО",
+            "phone": "Телефон",
+            "email": "Email",
+            "address": "Адрес / комментарий",
+            "payment_method": "Способ оплаты",
+        }
+
+    def clean_phone(self):
+        phone = self.cleaned_data["phone"]
+        validate_phone_form(phone)
+        return phone
+
+    def clean_promo_code(self):
+        from .models import Promo
+        code = self.cleaned_data.get("promo_code", "").strip()
+        if not code:
+            return None
+        try:
+            promo = Promo.objects.get(code__iexact=code)
+        except Promo.DoesNotExist:
+            raise ValidationError("Промокод не найден.")
+        if not promo.is_current:
+            raise ValidationError("Этот промокод больше не действует.")
+        return promo

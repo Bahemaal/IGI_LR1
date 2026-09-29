@@ -2,15 +2,20 @@
 {% block title %}Новости{% endblock %}
 {% block content %}
 <h1>Новости</h1>
-{% for a in articles %}
-<div style="border:1px solid #ddd;border-radius:6px;padding:14px;margin-bottom:14px;background:#fff">
-    {% if a.image %}<img src="{{ a.image.url }}" style="max-height:120px;object-fit:cover;border-radius:4px;margin-bottom:8px">{% endif %}
-    <h3>{{ a.title }}</h3>
-    <small style="color:#888">{{ a.published_at|date:"d/m/Y" }}</small>
-    <p style="margin-top:6px">{{ a.summary }}</p>
-    <a href="/news/{{ a.pk }}/" class="btn btn-sm" style="margin-top:8px">Читать далее</a>
-</div>
-{% empty %}
-<p>Новостей пока нет.</p>
-{% endfor %}
+<section aria-label="Список новостей">
+    <ul class="news-list">
+        {% for a in articles %}
+        <li>
+            <article class="card">
+                {% if a.image %}<img src="{{ a.image.url }}" alt="{{ a.title }}" class="card-photo">{% endif %}
+                <h2>{{ a.title }}</h2>
+                <small><time datetime="{{ a.published_at|date:'c' }}">{{ a.published_at|date:"d.m.Y" }}</time></small>
+                <p>{{ a.summary }}</p>
+                <a href="/news/{{ a.pk }}/" class="btn btn-sm">Читать далее</a>
+            </article>
+        </li>
+        {% empty %}<li>Новостей пока нет.</li>
+        {% endfor %}
+    </ul>
+</section>
 {% endblock %}

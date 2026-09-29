@@ -2,21 +2,39 @@
 {% block title %}Промокоды и купоны{% endblock %}
 {% block content %}
 <h1>Промокоды и купоны</h1>
-<h2 style="margin-top:16px">Действующие</h2>
-{% for p in current %}
-<div style="border:2px solid #5a3e8c;border-radius:6px;padding:12px;margin-bottom:10px;background:#fff">
-    <strong style="font-size:18px;color:#5a3e8c">{{ p.code }}</strong> — скидка {{ p.discount_percent }}%<br>
-    <small>{{ p.valid_from|date:"d/m/Y" }} — {{ p.valid_to|date:"d/m/Y" }}</small><br>
-    {{ p.description }}
-</div>
-{% empty %}<p>Нет активных промокодов.</p>
-{% endfor %}
 
-<h2 style="margin-top:24px">Архив</h2>
-{% for p in archived %}
-<div style="border:1px solid #ccc;border-radius:6px;padding:10px;margin-bottom:8px;background:#f4f4f4;color:#888">
-    <strong>{{ p.code }}</strong> — {{ p.discount_percent }}% (истёк {{ p.valid_to|date:"d/m/Y" }})
-</div>
-{% empty %}<p>Архив пуст.</p>
-{% endfor %}
+<section aria-labelledby="current-heading">
+    <h2 id="current-heading">Действующие</h2>
+    <ul class="promo-list">
+        {% for p in current %}
+        <li>
+            <article class="card promo-card">
+                <strong class="promo-code">{{ p.code }}</strong> — скидка {{ p.discount_percent }}%<br>
+                <small>
+                    <time datetime="{{ p.valid_from|date:'Y-m-d' }}">{{ p.valid_from|date:"d.m.Y" }}</time>
+                    —
+                    <time datetime="{{ p.valid_to|date:'Y-m-d' }}">{{ p.valid_to|date:"d.m.Y" }}</time>
+                </small><br>
+                {{ p.description }}
+            </article>
+        </li>
+        {% empty %}<li>Нет активных промокодов.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section aria-labelledby="archive-heading">
+    <h2 id="archive-heading">Архив</h2>
+    <ul class="promo-list">
+        {% for p in archived %}
+        <li>
+            <article class="card promo-card promo-expired">
+                <strong>{{ p.code }}</strong> — {{ p.discount_percent }}%
+                (истёк <time datetime="{{ p.valid_to|date:'Y-m-d' }}">{{ p.valid_to|date:"d.m.Y" }}</time>)
+            </article>
+        </li>
+        {% empty %}<li>Архив пуст.</li>
+        {% endfor %}
+    </ul>
+</section>
 {% endblock %}

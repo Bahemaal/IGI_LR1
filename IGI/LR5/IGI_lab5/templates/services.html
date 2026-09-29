@@ -2,41 +2,92 @@
 {% block title %}Услуги{% endblock %}
 {% block content %}
 <h1>Услуги</h1>
-<form method="get" style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:16px;margin-bottom:20px">
-    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
-        <div><label>Поиск<br><input type="text" name="search" value="{{ form.search.value|default:'' }}" placeholder="Название..." style="padding:6px;border:1px solid #ccc;border-radius:4px"></label></div>
-        <div><label>Категория<br>{{ form.category }}</label></div>
-        <div><label>Цена от<br><input type="number" name="min_price" value="{{ form.min_price.value|default:'' }}" style="width:90px;padding:6px;border:1px solid #ccc;border-radius:4px"></label></div>
-        <div><label>Цена до<br><input type="number" name="max_price" value="{{ form.max_price.value|default:'' }}" style="width:90px;padding:6px;border:1px solid #ccc;border-radius:4px"></label></div>
-        <div><label>Сортировка<br>{{ form.sort }}</label></div>
-        <div><button type="submit" class="btn">Найти</button></div>
+<p><a href="{{ MEDIA_URL }}documents/price_list.pdf" download="прайс-лист.pdf" class="btn btn-sm">⬇ Скачать прайс-лист (PDF)</a></p>
 
-        <select onchange="setCurrency(this.value)">
-          <option value="BYN">BYN</option>
-          <option value="USD">USD</option>
-          <option value="RUB">RUB</option>
-        </select>
-
-        <script>
-        function setCurrency(cur) {
-          fetch('/set-currency/', {method: 'POST', body: JSON.stringify({currency: cur})})
-            .then(() => location.reload());
-        }
-        </script>
+<form method="get" class="filter-form" style="flex-wrap:wrap">
+    <div>
+        <label for="svc-search">Поиск</label><br>
+        <input type="text" id="svc-search" name="search" list="service-names"
+               value="{{ form.search.value|default:'' }}" placeholder="Название...">
+        <datalist id="service-names">
+            {% for s in all_service_names %}<option value="{{ s }}">{% endfor %}
+        </datalist>
     </div>
+    <div><label>Категория<br>{{ form.category }}</label></div>
+    <div><label>Цена от<br><input type="number" name="min_price" value="{{ form.min_price.value|default:'' }}" style="width:90px;padding:6px;border:1px solid #ccc;border-radius:4px"></label></div>
+    <div><label>Цена до<br><input type="number" name="max_price" value="{{ form.max_price.value|default:'' }}" style="width:90px;padding:6px;border:1px solid #ccc;border-radius:4px"></label></div>
+    <div><label>Сортировка<br>{{ form.sort }}</label></div>
+    <div><button type="submit" class="btn">Найти</button></div>
+
+    <select onchange="setCurrency(this.value)">
+      <option value="BYN">BYN</option>
+      <option value="USD">USD</option>
+      <option value="RUB">RUB</option>
+    </select>
+    <script>
+    function setCurrency(cur) {
+      fetch('/set-currency/', {method: 'POST', body: JSON.stringify({currency: cur})})
+        .then(() => location.reload());
+    }
+    </script>
 </form>
 
+{% load custom_tags %}
 <table>
-<tr><th>Название</th><th>Категория</th><th>Цена</th><th>Длительность</th></tr>
+<tr>
+    <th id="col-name" scope="col">Название</th>
+    <th id="col-cat" scope="col">Категория</th>
+    <th id="col-price" scope="col">Цена</th>
+    <th id="col-dur" scope="col">Длительность</th>
+    <th id="col-action" scope="col"></th>
+</tr>
 {% for s in services %}
 <tr>
-    <td>{{ s.name }}</td>
-    <td>{{ s.category }}</td>
-    {% load custom_tags %}
-    <td>{{ s.price|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</td>
-    <td>{{ s.duration }} мин</td>
+    <td headers="col-name"><a href="{% url 'service_detail' s.pk %}">{{ s.name }}</a></td>
+    <td headers="col-cat">{{ s.category }}</td>
+    <td headers="col-price">{{ s.price|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</td>
+    <td headers="col-dur">{{ s.duration }} мин</td>
+    <td headers="col-action">
+        <form method="post" action="{% url 'cart_add' s.pk %}" style="display:inline">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="next" value="{% url 'services' %}">
+            <button type="submit" class="btn btn-sm">В корзину</button>
+        </form>
+    </td>
 </tr>
-{% empty %}<tr><td colspan="4">Ничего не найдено</td></tr>
+{% empty %}<tr><td colspan="5">Ничего не найдено</td></tr>
 {% endfor %}
+<tr>
+    <td colspan="4" style="text-align:right"><strong>Всего позиций в каталоге:</strong></td>
+    <td><strong>{{ services|length }}</strong></td>
+</tr>
+</table>
+
+<h2>Пример: расписание работы центра (rowspan/colspan)</h2>
+<table class="stat-table">
+    <tr>
+        <th scope="col">День</th>
+        <th scope="col">Время</th>
+        <th scope="col">Примечание</th>
+    </tr>
+    <tr>
+        <td rowspan="5">Пн–Пт</td>
+        <td>9:00–20:00</td>
+        <td rowspan="5">Без перерыва</td>
+    </tr>
+    <tr><td>9:00–20:00</td></tr>
+    <tr><td>9:00–20:00</td></tr>
+    <tr><td>9:00–20:00</td></tr>
+    <tr><td>9:00–20:00</td></tr>
+    <tr>
+        <td>Сб</td>
+        <td>10:00–16:00</td>
+        <td>Только запись</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align:right">Вс:</td>
+        <td>Выходной</td>
+    </tr>
 </table>
 {% endblock %}

@@ -3,80 +3,75 @@
 {% block content %}
 <h1>Статистика</h1>
 
-<div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:24px">
+<dl class="stat-cards">
     {% for label, val, color in summary %}
-    <div style="background:{{ color }};border-radius:6px;padding:14px;min-width:140px;text-align:center">
-        <div style="font-size:28px;font-weight:bold">{{ val }}</div>
-        <div style="font-size:12px">{{ label }}</div>
-    </div>
+    <div class="stat-card" style="background:{{ color }}"><dt>{{ label }}</dt><dd>{{ val }}</dd></div>
     {% endfor %}
-    <div style="background:#d4edda;border-radius:6px;padding:14px;min-width:140px;text-align:center">
-        <div style="font-size:28px;font-weight:bold">{{ total_appointments }}</div>
-        <div style="font-size:12px">Всего записей</div>
-    </div>
-    <div style="background:#cce5ff;border-radius:6px;padding:14px;min-width:140px;text-align:center">
-        <div style="font-size:28px;font-weight:bold">{{ completed }}</div>
-        <div style="font-size:12px">Завершено</div>
-    </div>
-    <div style="background:#fff3cd;border-radius:6px;padding:14px;min-width:140px;text-align:center">
-        <div style="font-size:28px;font-weight:bold">{{ upcoming }}</div>
-        <div style="font-size:12px">Предстоящих</div>
-    </div>
-    <div style="background:#ede8f5;border-radius:6px;padding:14px;min-width:140px;text-align:center">
-        <div style="font-size:28px;font-weight:bold">{{ revenue }} руб.</div>
-        <div style="font-size:12px">Выручка</div>
-    </div>
-</div>
+    <div class="stat-card stat-success"><dt>Всего записей</dt><dd>{{ total_appointments }}</dd></div>
+    <div class="stat-card stat-info"><dt>Завершено</dt><dd>{{ completed }}</dd></div>
+    <div class="stat-card stat-warning"><dt>Предстоящих</dt><dd>{{ upcoming }}</dd></div>
+    <div class="stat-card stat-neutral"><dt>Выручка</dt><dd>{{ revenue }} руб.</dd></div>
+</dl>
 
-<h3>Статистика цен на услуги</h3>
-<table style="max-width:400px">
-    <tr><td>Среднее</td><td><strong>{{ price_mean }} руб.</strong></td></tr>
-    <tr><td>Медиана</td><td><strong>{{ price_median }} руб.</strong></td></tr>
-    <tr><td>Мода</td><td><strong>{{ price_mode }} руб.</strong></td></tr>
-</table>
+<section aria-labelledby="price-stats-heading">
+    <h2 id="price-stats-heading">Статистика цен на услуги</h2>
+    <table class="stat-table">
+        <tr><th scope="row">Среднее</th><td>{{ price_mean }} руб.</td></tr>
+        <tr><th scope="row">Медиана</th><td>{{ price_median }} руб.</td></tr>
+        <tr><th scope="row">Мода</th><td>{{ price_mode }} руб.</td></tr>
+    </table>
+</section>
 
-<h3 style="margin-top:20px">Статистика возраста клиентов</h3>
-<table style="max-width:300px">
-    <tr><td>Среднее</td><td><strong>{{ age_mean }} лет</strong></td></tr>
-    <tr><td>Медиана</td><td><strong>{{ age_median }} лет</strong></td></tr>
-</table>
+<section aria-labelledby="age-stats-heading">
+    <h2 id="age-stats-heading">Статистика возраста клиентов</h2>
+    <table class="stat-table">
+        <tr><th scope="row">Среднее</th><td>{{ age_mean }} лет</td></tr>
+        <tr><th scope="row">Медиана</th><td>{{ age_median }} лет</td></tr>
+    </table>
+</section>
 
-<h3 style="margin-top:20px">Популярные услуги</h3>
-<table>
-<tr><th>Услуга</th><th>Кол-во записей</th></tr>
-{% for s in popular_services %}
-<tr><td>{{ s.name }}</td><td>{{ s.appointment_count }}</td></tr>
-{% endfor %}
-</table>
+<section aria-labelledby="popular-services-heading">
+    <h2 id="popular-services-heading">Популярные услуги</h2>
+    <table>
+        <tr><th scope="col">Услуга</th><th scope="col">Кол-во записей</th></tr>
+        {% for s in popular_services %}
+        <tr><td>{{ s.name }}</td><td>{{ s.appointment_count }}</td></tr>
+        {% endfor %}
+    </table>
+</section>
 
-<h3 style="margin-top:24px">Услуги по категориям (диаграмма)</h3>
-<canvas id="chart" width="500" height="300"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-new Chart(document.getElementById('chart'), {
-    type: 'bar',
-    data: {
-        labels: {{ chart_labels|safe }},
-        datasets: [{
-            label: 'Кол-во услуг',
-            data: {{ chart_values|safe }},
-            backgroundColor: '#7b57b5'
-        }]
-    },
-    options: { responsive: false, plugins: { legend: { display: false } } }
-});
-</script>
+<section aria-labelledby="chart-heading">
+    <h2 id="chart-heading">Услуги по категориям (диаграмма)</h2>
+    <canvas id="chart" width="500" height="300" role="img" aria-label="Диаграмма количества услуг по категориям"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    new Chart(document.getElementById('chart'), {
+        type: 'bar',
+        data: {
+            labels: {{ chart_labels|safe }},
+            datasets: [{
+                label: 'Кол-во услуг',
+                data: {{ chart_values|safe }},
+                backgroundColor: '#7b57b5'
+            }]
+        },
+        options: { responsive: false, plugins: { legend: { display: false } } }
+    });
+    </script>
+</section>
 
-<h3 style="margin-top:24px">Клиенты (алфавит)</h3>
-<table>
-<tr><th>ФИО</th><th>Возраст</th><th>Телефон</th><th>Email</th></tr>
-{% for c in clients_alpha %}
-<tr>
-    <td>{{ c.full_name }}</td>
-    <td>{{ c.age }}</td>
-    <td>{{ c.phone }}</td>
-    <td>{{ c.email }}</td>
-</tr>
-{% endfor %}
-</table>
+<section aria-labelledby="clients-heading">
+    <h2 id="clients-heading">Клиенты (алфавит)</h2>
+    <table>
+        <tr><th scope="col">ФИО</th><th scope="col">Возраст</th><th scope="col">Телефон</th><th scope="col">Email</th></tr>
+        {% for c in clients_alpha %}
+        <tr>
+            <td>{{ c.full_name }}</td>
+            <td>{{ c.age }}</td>
+            <td>{{ c.phone }}</td>
+            <td>{{ c.email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
 {% endblock %}

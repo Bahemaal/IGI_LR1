@@ -1,36 +1,51 @@
 {% extends 'base.html' %}
 {% block title %}{{ doctor.full_name }}{% endblock %}
 {% block content %}
-<h1>{{ doctor.full_name }}</h1>
-{% if doctor.photo %}<img src="{{ doctor.photo.url }}" style="max-height:200px;border-radius:8px;margin-bottom:12px">{% endif %}
-<p><strong>Категория:</strong> {{ doctor.category }}</p>
-<p><strong>Специализация:</strong> {{ doctor.specialization }}</p>
-<p><strong>Стаж:</strong> {{ doctor.experience }} лет</p>
-<p><strong>Телефон:</strong> {{ doctor.phone }}</p>
+<nav aria-label="Хлебные крошки" class="breadcrumbs">
+    <a href="/">Главная</a> › <a href="/doctors/">Врачи</a> › <span>{{ doctor.full_name }}</span>
+</nav>
 
-<h3 style="margin-top:20px">Оказываемые услуги</h3>
-<ul>
-{% for s in doctor.services.all %}
-<li>{{ s.name }} — {{ s.price }} руб.</li>
-{% empty %}<li>Не указаны</li>
-{% endfor %}
-</ul>
+<article itemscope itemtype="https://schema.org/Person">
+    <header>
+        <h1 itemprop="name">{{ doctor.full_name }}</h1>
+    </header>
+    {% if doctor.photo %}<img src="{{ doctor.photo.url }}" alt="Фото {{ doctor.full_name }}" itemprop="image" style="max-height:200px;border-radius:8px;margin-bottom:12px">{% endif %}
+    <dl class="doctor-meta">
+        <dt>Категория</dt><dd itemprop="worksFor">{{ doctor.category }}</dd>
+        <dt>Специализация</dt><dd itemprop="jobTitle">{{ doctor.specialization }}</dd>
+        <dt>Стаж</dt><dd>{{ doctor.experience }} лет</dd>
+        <dt>Телефон</dt><dd><a href="tel:{{ doctor.phone }}" itemprop="telephone">{{ doctor.phone }}</a></dd>
+    </dl>
 
-<h3 style="margin-top:20px">Расписание</h3>
-<table>
-<tr><th>День</th><th>Кабинет</th><th>Начало</th><th>Конец</th></tr>
-{% for sc in schedules %}
-<tr>
-    <td>{{ sc.get_weekday_display }}</td>
-    <td>{{ sc.cabinet }}</td>
-    <td>{{ sc.time_start }}</td>
-    <td>{{ sc.time_end }}</td>
-</tr>
-{% empty %}<tr><td colspan="4">Расписание не указано</td></tr>
-{% endfor %}
-</table>
-<p style="margin-top:16px">
+    <section aria-labelledby="doc-services-heading">
+        <h2 id="doc-services-heading">Оказываемые услуги</h2>
+        <ul>
+            {% for s in doctor.services.all %}
+            <li><a href="{% url 'service_detail' s.pk %}">{{ s.name }}</a> — {{ s.price }} руб.</li>
+            {% empty %}<li>Не указаны</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section aria-labelledby="doc-schedule-heading">
+        <h2 id="doc-schedule-heading">Расписание</h2>
+        <table>
+            <tr><th scope="col">День</th><th scope="col">Кабинет</th><th scope="col">Начало</th><th scope="col">Конец</th></tr>
+            {% for sc in schedules %}
+            <tr>
+                <td>{{ sc.get_weekday_display }}</td>
+                <td>{{ sc.cabinet }}</td>
+                <td><time datetime="{{ sc.time_start }}">{{ sc.time_start }}</time></td>
+                <td><time datetime="{{ sc.time_end }}">{{ sc.time_end }}</time></td>
+            </tr>
+            {% empty %}<tr><td colspan="4">Расписание не указано</td></tr>
+            {% endfor %}
+        </table>
+    </section>
+</article>
+
+<p>
     <a href="/appointment/create/" class="btn">Записаться</a>
-    <a href="/doctors/" class="btn btn-sm" style="margin-left:8px">← Назад</a>
+    <a href="/doctors/" class="btn btn-sm">← Назад</a>
 </p>
 {% endblock %}

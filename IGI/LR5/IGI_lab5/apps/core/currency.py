@@ -27,4 +27,6 @@ def get_exchange_rates():
         return rates
     except Exception as e:
         logger.error(f"Ошибка с курсами: {e}")
-        return {'BYN': 1.0, 'USD': 3.2, 'RUB': 0.035}
+        fallback = {'BYN': 1.0, 'USD': 3.2, 'RUB': 0.035}
+        cache.set('nbrb_rates', fallback, 300)
+        return fallback

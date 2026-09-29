@@ -5,50 +5,50 @@
 <p>Телефон: {{ client.phone }} | Email: {{ client.email }}</p>
 <p>Возраст: {{ client.age }} лет</p>
 
-<div style="display:flex;gap:20px;margin:16px 0">
-    <div style="background:#ede8f5;border-radius:6px;padding:12px;text-align:center;width:120px">
-        <div style="font-size:24px;font-weight:bold">{{ total_appointments }}</div>
-        <div style="font-size:12px">Всего записей</div>
-    </div>
-    <div style="background:#d4edda;border-radius:6px;padding:12px;text-align:center;width:120px">
-        <div style="font-size:24px;font-weight:bold">{{ upcoming }}</div>
-        <div style="font-size:12px">Предстоящих</div>
-    </div>
-    <div style="background:#cce5ff;border-radius:6px;padding:12px;text-align:center;width:120px">
-        <div style="font-size:24px;font-weight:bold">{{ completed }}</div>
-        <div style="font-size:12px">Завершено</div>
-    </div>
-</div>
+<dl class="stat-cards">
+    <div class="stat-card stat-neutral"><dt>Всего записей</dt><dd>{{ total_appointments }}</dd></div>
+    <div class="stat-card stat-success"><dt>Предстоящих</dt><dd>{{ upcoming }}</dd></div>
+    <div class="stat-card stat-info"><dt>Завершено</dt><dd>{{ completed }}</dd></div>
+</dl>
 
-<h3>Мои записи</h3>
-<p><a href="/appointment/create/" class="btn btn-sm">+ Новая запись</a></p>
-<table style="margin-top:8px">
-<tr><th>Врач</th><th>Услуга</th><th>Дата/Время</th><th>Статус</th><th>Действия</th></tr>
-{% for a in appointments %}
-<tr>
-    <td>{{ a.doctor.full_name }}</td>
-    <td>{{ a.service.name }}</td>
-    <td>{{ a.date_time|date:"d/m/Y H:i" }}</td>
-    <td>{{ a.get_status_display }}</td>
-    <td>
-        <a href="/appointment/{{ a.pk }}/edit/" class="btn btn-sm">Изменить</a>
-        <a href="/appointment/{{ a.pk }}/delete/" class="btn btn-sm btn-danger">Отменить</a>
-    </td>
-</tr>
-{% empty %}<tr><td colspan="5">Записей нет</td></tr>
-{% endfor %}
-</table>
+<section aria-labelledby="my-appointments-heading">
+    <h2 id="my-appointments-heading">Мои записи</h2>
+    <p><a href="/appointment/create/" class="btn btn-sm">+ Новая запись</a></p>
+    <table>
+        <tr><th scope="col">Врач</th><th scope="col">Услуга</th><th scope="col">Дата/Время</th><th scope="col">Статус</th><th scope="col">Действия</th></tr>
+        {% for a in appointments %}
+        <tr>
+            <td>{{ a.doctor.full_name }}</td>
+            <td>{{ a.service.name }}</td>
+            <td><time datetime="{{ a.date_time|date:'c' }}">{{ a.date_time|date:"d.m.Y H:i" }}</time></td>
+            <td>{{ a.get_status_display }}</td>
+            <td>
+                <a href="/appointment/{{ a.pk }}/edit/" class="btn btn-sm">Изменить</a>
+                <a href="/appointment/{{ a.pk }}/delete/" class="btn btn-sm btn-danger">Отменить</a>
+            </td>
+        </tr>
+        {% empty %}<tr><td colspan="5">Записей нет</td></tr>
+        {% endfor %}
+    </table>
+</section>
 
-<br>
-<h2>Твой IP-адрес</h2>
-<div style="background:#f0f0f0; padding:15px; border-radius:8px; margin:15px 0;">
-    <strong>IP:</strong> <span style="color:#5a3e8c; font-size:1.2em;">{{ ip }}</span><br>
+<section aria-labelledby="notes-heading">
+    <h2 id="notes-heading">Личные заметки</h2>
+    <p><small>Редактируется прямо здесь (contenteditable), сохраняется только в браузере на время сессии.</small></p>
+    <div contenteditable="true" spellcheck="true" class="notes-box"
+         aria-label="Поле для личных заметок">Например: не забыть взять результаты анализов на приём.</div>
+</section>
 
-    {% if ip_info.country %}
-        <strong>Страна:</strong> {{ ip_info.country }}<br>
-        <strong>Город:</strong> {{ ip_info.city|default:"—" }}<br>
-        <strong>Регион:</strong> {{ ip_info.region|default:"—" }}<br>
-        <strong>Провайдер:</strong> {{ ip_info.isp|default:"—" }}
-    {% endif %}
-</div>
+<section aria-labelledby="ip-heading">
+    <h2 id="ip-heading">Твой IP-адрес</h2>
+    <dl class="ip-info">
+        <dt>IP</dt><dd>{{ ip }}</dd>
+        {% if ip_info.country %}
+        <dt>Страна</dt><dd>{{ ip_info.country }}</dd>
+        <dt>Город</dt><dd>{{ ip_info.city|default:"—" }}</dd>
+        <dt>Регион</dt><dd>{{ ip_info.region|default:"—" }}</dd>
+        <dt>Провайдер</dt><dd>{{ ip_info.isp|default:"—" }}</dd>
+        {% endif %}
+    </dl>
+</section>
 {% endblock %}

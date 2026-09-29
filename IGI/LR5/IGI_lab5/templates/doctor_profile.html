@@ -4,26 +4,35 @@
 <h1>Кабинет врача: {{ doctor.full_name }}</h1>
 <p>Специализация: {{ doctor.specialization }} | Стаж: {{ doctor.experience }} лет</p>
 
-<h3 style="margin-top:20px">Моё расписание</h3>
-<table>
-<tr><th>День</th><th>Кабинет</th><th>Начало</th><th>Конец</th></tr>
-{% for sc in schedules %}
-<tr><td>{{ sc.get_weekday_display }}</td><td>{{ sc.cabinet }}</td><td>{{ sc.time_start }}</td><td>{{ sc.time_end }}</td></tr>
-{% empty %}<tr><td colspan="4">Расписание не указано</td></tr>
-{% endfor %}
-</table>
+<section aria-labelledby="my-schedule-heading">
+    <h2 id="my-schedule-heading">Моё расписание</h2>
+    <table>
+        <tr><th scope="col">День</th><th scope="col">Кабинет</th><th scope="col">Начало</th><th scope="col">Конец</th></tr>
+        {% for sc in schedules %}
+        <tr>
+            <td>{{ sc.get_weekday_display }}</td>
+            <td>{{ sc.cabinet }}</td>
+            <td><time datetime="{{ sc.time_start }}">{{ sc.time_start }}</time></td>
+            <td><time datetime="{{ sc.time_end }}">{{ sc.time_end }}</time></td>
+        </tr>
+        {% empty %}<tr><td colspan="4">Расписание не указано</td></tr>
+        {% endfor %}
+    </table>
+</section>
 
-<h3 style="margin-top:20px">Мои записи</h3>
-<table>
-<tr><th>Клиент</th><th>Услуга</th><th>Дата/Время</th><th>Статус</th></tr>
-{% for a in appointments %}
-<tr>
-    <td>{{ a.client.full_name }}</td>
-    <td>{{ a.service.name }}</td>
-    <td>{{ a.date_time|date:"d/m/Y H:i" }}</td>
-    <td>{{ a.get_status_display }}</td>
-</tr>
-{% empty %}<tr><td colspan="4">Записей нет</td></tr>
-{% endfor %}
-</table>
+<section aria-labelledby="my-appointments-heading">
+    <h2 id="my-appointments-heading">Мои записи</h2>
+    <table>
+        <tr><th scope="col">Клиент</th><th scope="col">Услуга</th><th scope="col">Дата/Время</th><th scope="col">Статус</th></tr>
+        {% for a in appointments %}
+        <tr>
+            <td>{{ a.client.full_name }}</td>
+            <td>{{ a.service.name }}</td>
+            <td><time datetime="{{ a.date_time|date:'c' }}">{{ a.date_time|date:"d.m.Y H:i" }}</time></td>
+            <td>{{ a.get_status_display }}</td>
+        </tr>
+        {% empty %}<tr><td colspan="4">Записей нет</td></tr>
+        {% endfor %}
+    </table>
+</section>
 {% endblock %}

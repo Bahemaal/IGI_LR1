@@ -28,6 +28,15 @@ urlpatterns = [
 
     # Услуги
     path("services/", views.services_list, name="services"),
+    re_path(r"^services/(?P<pk>[0-9]+)/$", views.service_detail, name="service_detail"),
+
+    # Корзина и оформление заказа
+    path("cart/", views.cart_view, name="cart"),
+    re_path(r"^cart/add/(?P<pk>[0-9]+)/$", views.cart_add, name="cart_add"),
+    re_path(r"^cart/update/(?P<pk>[0-9]+)/$", views.cart_update, name="cart_update"),
+    re_path(r"^cart/remove/(?P<pk>[0-9]+)/$", views.cart_remove, name="cart_remove"),
+    path("checkout/", views.checkout_view, name="checkout"),
+    re_path(r"^order/(?P<pk>[0-9]+)/success/$", views.order_success, name="order_success"),
 
     # Авторизация
     path("register/client/", views.register_client, name="register_client"),

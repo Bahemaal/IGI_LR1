@@ -2,7 +2,8 @@ from django.contrib import admin
 from .models import (
     DoctorCategory, Doctor, Client, ServiceCategory,
     Service, Cabinet, Appointment, Sale, Schedule,
-    Promo, Article, FAQ, Contact, Vacancy, Review, CompanyInfo
+    Promo, Article, FAQ, Contact, Vacancy, Review, CompanyInfo,
+    Banner, Partner, Order, OrderItem, CompanyHistoryEvent, Certificate
 )
 
 
@@ -128,3 +129,44 @@ class ReviewAdmin(admin.ModelAdmin):
 @admin.register(CompanyInfo)
 class CompanyInfoAdmin(admin.ModelAdmin):
     list_display = ('name', 'founded_year')
+
+
+@admin.register(Banner)
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ('title', 'order', 'is_active')
+    list_filter = ('is_active',)
+    list_editable = ('order', 'is_active')
+
+
+@admin.register(Partner)
+class PartnerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'website', 'order', 'is_active')
+    list_filter = ('is_active',)
+    list_editable = ('order', 'is_active')
+
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+    readonly_fields = ('service', 'quantity', 'price')
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'full_name', 'phone', 'total_amount', 'payment_method', 'status', 'created_at')
+    list_filter = ('status', 'payment_method', 'created_at')
+    search_fields = ('full_name', 'phone', 'email')
+    list_editable = ('status',)
+    inlines = [OrderItemInline]
+
+
+@admin.register(CompanyHistoryEvent)
+class CompanyHistoryEventAdmin(admin.ModelAdmin):
+    list_display = ('year', 'title')
+    ordering = ('year',)
+
+
+@admin.register(Certificate)
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ('title', 'issued_year', 'order')
+    list_editable = ('order',)
