@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}Врачи{% endblock %}
+{% block content %}
+<h1>Наши врачи</h1>
+<form method="get" class="filter-form">
+    <label for="doc-q" class="visually-hidden">Поиск</label>
+    <input type="text" id="doc-q" name="q" value="{{ q }}" placeholder="Поиск по имени/специализации">
+    <label for="doc-sort" class="visually-hidden">Сортировка</label>
+    <select id="doc-sort" name="sort">
+        <option value="full_name">По имени</option>
+        <option value="-experience">Опыт (убыв.)</option>
+    </select>
+    <button type="submit" class="btn">Найти</button>
+</form>
+
+<section aria-label="Список врачей">
+    <ul class="card-grid">
+        {% for d in doctors %}
+        <li itemscope itemtype="https://schema.org/Person">
+            <article class="card">
+                {% if d.photo %}<img src="{{ d.photo.url }}" srcset="{{ d.photo|thumb_url }} 150w, {{ d.photo.url }} 300w" sizes="150px" alt="Фото {{ d.full_name }}" class="card-photo" itemprop="image">{% endif %}
+                <strong itemprop="name">{{ d.full_name }}</strong><br>
+                <small itemprop="worksFor">{{ d.category }}</small><br>
+                <small itemprop="jobTitle">{{ d.specialization }}</small><br>
+                <small>Стаж: {{ d.experience }} лет</small><br>
+                <a href="/doctors/{{ d.pk }}/" class="btn btn-sm">Подробнее</a>
+            </article>
+        </li>
+        {% empty %}<li>Врачи не найдены.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

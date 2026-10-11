@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<nav aria-label="Хлебные крошки" class="breadcrumbs">
+    <a href="/">Главная</a> › <a href="/news/">Новости</a> › <span>{{ article.title }}</span>
+</nav>
+
+<article>
+    <header>
+        <h1>{{ article.title }}</h1>
+        <p><small><time datetime="{{ article.published_at|date:'c' }}">{{ article.published_at|date:"d.m.Y H:i" }}</time></small></p>
+    </header>
+    {% if article.image %}
+    <figure>
+        <img src="{{ article.image.url }}" alt="{{ article.title }}" style="max-width:100%;border-radius:6px">
+    </figure>
+    {% endif %}
+    <div class="article-body">{{ article.content|linebreaks }}</div>
+</article>
+
+<p><a href="/news/" class="btn">← Назад</a></p>
+{% endblock %}

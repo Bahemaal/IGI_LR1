@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}Главная — Косметологический центр{% endblock %}
+{% block content %}
+{% load static tz custom_tags %}
+
+<header class="home-header">
+    {% if company.logo %}
+        <img src="{{ company.logo.url }}" alt="Логотип {{ company.name }}" class="home-logo">
+    {% endif %}
+    <div>
+        <h1>{{ company.name|default:"Косметологический центр" }}</h1>
+        <p class="home-tagline">Профессиональный уход за кожей и телом с заботой о каждом клиенте</p>
+    </div>
+</header>
+
+<p class="home-clock">
+    Ваше время (<abbr title="{{ user_tz }}">{{ user_tz }}</abbr>):
+    <time datetime="{{ now_local|date:'c' }}">{{ now_local|date:"d.m.Y H:i" }}</time>
+</p>
+
+{% if banners %}
+<section class="banner-strip" aria-label="Рекламные баннеры">
+    {% for b in banners %}
+        {% if b.link %}<a href="{{ b.link }}" target="_blank" rel="noopener noreferrer">{% endif %}
+        <figure class="banner-item">
+            <img src="{{ b.image.url }}" alt="{{ b.title }}">
+            <figcaption>{{ b.title }}</figcaption>
+        </figure>
+        {% if b.link %}</a>{% endif %}
+    {% endfor %}
+</section>
+{% endif %}
+
+{% if latest_article %}
+<article class="latest-article">
+    <h2>Последняя статья: {{ latest_article.title }}</h2>
+    <p>{{ latest_article.summary }}</p>
+    <p><time datetime="{{ latest_article.published_at|date:'c' }}">{{ latest_article.published_at|date:"d.m.Y" }}</time></p>
+    <a href="/news/{{ latest_article.pk }}/" class="btn btn-sm">Читать далее</a>
+</article>
+{% endif %}
+
+<section aria-labelledby="doctors-heading">
+    <h2 id="doctors-heading">Наши врачи</h2>
+    <ul class="card-grid">
+        {% for d in doctors %}
+        <li>
+            <article class="card">
+                {% if d.photo %}<img src="{{ d.photo.url }}" srcset="{{ d.photo|thumb_url }} 150w, {{ d.photo.url }} 300w" sizes="150px" alt="Фото врача {{ d.full_name }}" class="card-photo">{% endif %}
+                <strong>{{ d.full_name }}</strong><br>
+                <small>{{ d.specialization }}</small><br>
+                <a href="/doctors/{{ d.pk }}/" class="btn btn-sm">Подробнее</a>
+            </article>
+        </li>
+        {% empty %}<li>Врачи не найдены.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section aria-labelledby="catalog-heading">
+    <h2 id="catalog-heading">Каталог услуг</h2>
+    <ul class="card-grid">
+        {% for s in services %}
+        <li>
+            <article class="card">
+                <strong>{{ s.name }}</strong><br>
+                <span>{{ s.price }} руб.</span> · <span>{{ s.duration }} мин</span><br>
+                <a href="{% url 'service_detail' s.pk %}" class="btn btn-sm">Подробнее</a>
+            </article>
+        </li>
+        {% empty %}<li>Услуги не найдены.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+{% if partners %}
+<section aria-labelledby="partners-heading">
+    <h2 id="partners-heading">Наши партнёры</h2>
+    <ul class="partners-list">
+        {% for p in partners %}
+        <li>
+            <a href="{{ p.website }}" target="_blank" rel="noopener noreferrer" title="{{ p.name }}">
+                <figure class="partner-item">
+                    <img src="{{ p.logo.url }}" alt="Логотип компании {{ p.name }}">
+                    <figcaption>{{ p.name }}</figcaption>
+                </figure>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+<section aria-labelledby="calendar-heading">
+    <h3 id="calendar-heading">Календарь</h3>
+    <pre class="calendar-box">{{ cal_text }}</pre>
+</section>
+
+<p class="home-cta">
+    <a href="/appointment/create/" class="btn">Записаться на приём</a>
+</p>
+<p>Адаптивность 1</p>
+<img srcset="/media/banners/adapt.png 480w, /media/banners/adapt2.png 1024w" sizes="(max-width:600px) 480px, 1024px" src="/media/banners/adapt2.png" alt="Адаптивная картинка">
+<p>Адаптивность 2</p>
+<img src="/media/banners/adapt2.png" alt="Адаптивная картинка" style="max-width: 100%;height: auto;">
+<p style="" class="" id="" title="" hidden="" data-content_root="" lang="" translate="" tabindex="" contenteditable="" dir="" spellcheck="" accesskey="" role="">Мяу</p>
+{% endblock %}

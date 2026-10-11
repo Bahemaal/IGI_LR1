@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Словарь терминов / FAQ{% endblock %}
+{% block content %}
+<h1>Словарь терминов и часто задаваемые вопросы</h1>
+
+<section aria-label="Вопросы и ответы">
+    <dl class="faq-list">
+        {% for item in items %}
+        <div class="faq-item">
+            <dt>{{ item.question }}</dt>
+            <dd>
+                {{ item.answer }}
+                <br><small>Добавлено: <time datetime="{{ item.added_at|date:'Y-m-d' }}">{{ item.added_at|date:"d.m.Y" }}</time></small>
+            </dd>
+        </div>
+        {% empty %}<p>Раздел пополняется.</p>
+        {% endfor %}
+    </dl>
+</section>
+{% endblock %}

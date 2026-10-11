@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Заказ оформлен{% endblock %}
+{% block content %}
+
+<article class="order-success">
+    <h1>Спасибо, {{ order.full_name }}!</h1>
+    <p>Ваш заказ <strong>№{{ order.pk }}</strong> успешно оформлен и оплачен.</p>
+
+    <table>
+        <tr><th scope="col">Услуга</th><th scope="col">Кол-во</th><th scope="col">Сумма</th></tr>
+        {% for item in order.items.all %}
+        <tr>
+            <td>{{ item.service.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.line_total|floatformat:2 }} BYN</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p class="cart-total">Итого оплачено: <strong>{{ order.total_amount|floatformat:2 }} BYN</strong></p>
+    <p>Способ оплаты: {{ order.get_payment_method_display }}</p>
+    <p><time datetime="{{ order.created_at|date:'c' }}">{{ order.created_at|date:"d.m.Y H:i" }}</time></p>
+
+    <p><a href="/" class="btn">На главную</a></p>
+</article>
+
+{% endblock %}

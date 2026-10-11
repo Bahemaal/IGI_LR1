@@ -1,0 +1,10 @@
+class
+id
+style
+title
+hidden
+data-*
+lang
+translate
+tabindex
+contenteditable

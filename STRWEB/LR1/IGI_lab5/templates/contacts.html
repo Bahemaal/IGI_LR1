@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Контакты{% endblock %}
+{% block content %}
+<h1>Контакты</h1>
+
+<section aria-labelledby="contacts-heading">
+    <h2 id="contacts-heading" class="visually-hidden">Сотрудники</h2>
+    <ul class="card-grid">
+        {% for c in contacts %}
+        <li>
+            <article class="card">
+                {% if c.photo %}<img src="{{ c.photo.url }}" alt="Фото {{ c.full_name }}" class="card-photo">{% endif %}
+                <strong>{{ c.full_name }}</strong><br>
+                <em>{{ c.position }}</em>
+                <address>
+                    <a href="tel:{{ c.phone }}">📞 {{ c.phone }}</a><br>
+                    {% if c.email %}<a href="mailto:{{ c.email }}">✉ {{ c.email }}</a>{% endif %}
+                </address>
+                {% if c.description %}<small>{{ c.description }}</small>{% endif %}
+            </article>
+        </li>
+        {% empty %}<li>Контакты не указаны.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

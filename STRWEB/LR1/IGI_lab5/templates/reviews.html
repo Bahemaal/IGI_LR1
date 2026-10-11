@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Отзывы{% endblock %}
+{% block content %}
+<h1>Отзывы клиентов</h1>
+
+{% if user.is_authenticated and form %}
+<section aria-labelledby="add-review-heading" class="card">
+    <h2 id="add-review-heading">Оставить отзыв</h2>
+    <form method="post" action="/reviews/add/">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-row">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<span class="form-error">{{ field.errors }}</span>{% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn">Отправить</button>
+    </form>
+</section>
+{% elif not user.is_authenticated %}
+<p><a href="/login/">Войдите</a>, чтобы оставить отзыв.</p>
+{% endif %}
+
+<section aria-label="Список отзывов">
+    <ul class="review-list">
+        {% for r in reviews %}
+        <li>
+            <article class="card">
+                <strong>{{ r.client.full_name }}</strong>
+                <span class="review-stars" aria-label="Оценка {{ r.rating }} из 5">
+                    {% for i in "12345"|make_list %}{% if forloop.counter <= r.rating %}★{% else %}☆{% endif %}{% endfor %}
+                </span>
+                <small><time datetime="{{ r.created_at|date:'Y-m-d' }}">{{ r.created_at|date:"d.m.Y" }}</time></small>
+                <blockquote><p>{{ r.text }}</p></blockquote>
+            </article>
+        </li>
+        {% empty %}<li>Отзывов пока нет.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
