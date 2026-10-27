@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Вакансии{% endblock %}
+{% block content %}
+<h1>Вакансии</h1>
+<section aria-label="Открытые вакансии">
+    {# блоки вакансий «плавают» (float: left), clear управляет переносом рядов #}
+    <ul class="vacancy-list">
+        {% for v in vacancies %}
+        <li>
+            <article class="card vacancy-card">
+                <h2>{{ v.title }}</h2>
+                {% if v.salary %}<p class="vacancy-salary">{{ v.salary }}</p>{% endif %}
+                <div class="vacancy-desc">{{ v.description|linebreaks }}</div>
+                <p class="vacancy-date"><small>Опубликовано: <time datetime="{{ v.created_at|date:'Y-m-d' }}">{{ v.created_at|date:"d.m.Y" }}</time></small></p>
+            </article>
+        </li>
+        {% empty %}<li>Открытых вакансий нет.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

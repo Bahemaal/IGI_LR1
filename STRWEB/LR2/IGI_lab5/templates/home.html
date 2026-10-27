@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% block title %}Главная — Косметологический центр{% endblock %}
+{% block content %}
+{% load static tz custom_tags %}
+
+{# ===== Анимация на главной (вариант 22): лицо, кисточка, проявление черт; название появляется в конце ===== #}
+<section class="hero" aria-label="Приветствие">
+    <div class="hero__canvas">
+        <svg class="face" viewBox="0 0 400 480" role="img"
+             aria-label="Анимация: кисточка по очереди проявляет в цвете глаза, брови, губы, нос и щёки на схематичном лице, черты лица улучшаются">
+            <defs>
+                <path id="f-eye-l" d="M118 192 Q150 166 182 192 Q150 214 118 192 Z"/>
+                <path id="f-eye-r" d="M218 192 Q250 166 282 192 Q250 214 218 192 Z"/>
+                <path id="f-brow-l" d="M112 160 Q148 136 188 154"/>
+                <path id="f-brow-r" d="M212 154 Q252 136 288 160"/>
+                <path id="f-nose" d="M200 198 C197 232 188 250 184 262 Q200 278 216 262"/>
+                <path id="f-lips" d="M152 336 Q178 316 200 326 Q222 316 248 336 Q224 374 200 376 Q176 374 152 336 Z"/>
+                <radialGradient id="f-blush">
+                    <stop offset="0" stop-color="#ff7aa5" stop-opacity=".75"/>
+                    <stop offset="1" stop-color="#ff7aa5" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="f-lipgrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#e0527f"/>
+                    <stop offset="1" stop-color="#c13b6a"/>
+                </linearGradient>
+            </defs>
+
+            <!-- 1. схематичный контур лица и шея -->
+            <path class="face__neck" pathLength="1" d="M162 392 V470 M238 392 V470"/>
+            <path class="face__skin" pathLength="1"
+                  d="M200 40 C275 40 322 100 322 190 C322 290 275 385 200 420 C125 385 78 290 78 190 C78 100 125 40 200 40 Z"/>
+
+            <!-- 2. направляющие (карандашный набросок) -->
+            <g class="face__guides">
+                <path d="M200 30V440 M60 192H340 M60 336H340"/>
+                <use href="#f-eye-l"/><use href="#f-eye-r"/>
+                <use href="#f-brow-l"/><use href="#f-brow-r"/>
+                <use href="#f-nose"/><use href="#f-lips"/>
+            </g>
+
+            <!-- 3. черты лица проявляются в цвете -->
+            <g class="feat feat--cheek-l"><circle cx="118" cy="270" r="36" fill="url(#f-blush)"/></g>
+            <g class="feat feat--cheek-r"><circle cx="282" cy="270" r="36" fill="url(#f-blush)"/></g>
+
+            <g class="feat feat--eye-l">
+                <path d="M120 186 Q150 160 180 186 Q150 174 120 186 Z" fill="#b08ad8" opacity=".7"/>
+                <use href="#f-eye-l" fill="#fff" stroke="#4b3a5c" stroke-width="2.5"/>
+                <circle cx="150" cy="192" r="11" fill="#3f9a7a"/>
+                <circle cx="150" cy="192" r="5" fill="#1d1a24"/>
+                <circle cx="153" cy="188" r="2.2" fill="#fff"/>
+                <path class="lash" d="M120 190 L108 180 M131 180 L125 167 M169 179 L175 166 M182 190 L194 181" stroke="#4b3a5c" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            </g>
+            <g class="feat feat--eye-r">
+                <path d="M220 186 Q250 160 280 186 Q250 174 220 186 Z" fill="#b08ad8" opacity=".7"/>
+                <use href="#f-eye-r" fill="#fff" stroke="#4b3a5c" stroke-width="2.5"/>
+                <circle cx="250" cy="192" r="11" fill="#3f9a7a"/>
+                <circle cx="250" cy="192" r="5" fill="#1d1a24"/>
+                <circle cx="253" cy="188" r="2.2" fill="#fff"/>
+                <path class="lash" d="M218 190 L206 181 M231 179 L225 166 M269 180 L275 167 M280 190 L292 180" stroke="#4b3a5c" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            </g>
+
+            <g class="feat feat--brow-l"><use href="#f-brow-l" fill="none" stroke="#6a4a3a" stroke-width="7" stroke-linecap="round"/></g>
+            <g class="feat feat--brow-r"><use href="#f-brow-r" fill="none" stroke="#6a4a3a" stroke-width="7" stroke-linecap="round"/></g>
+
+            <g class="feat feat--nose">
+                <use href="#f-nose" fill="none" stroke="#c4877a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="190" cy="266" r="2.4" fill="#c4877a"/><circle cx="210" cy="266" r="2.4" fill="#c4877a"/>
+            </g>
+
+            <g class="feat feat--lips">
+                <use href="#f-lips" fill="url(#f-lipgrad)"/>
+                <path d="M152 336 Q200 350 248 336" stroke="#9c2c55" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path class="gloss" d="M182 354 Q200 362 218 354" stroke="#fff" stroke-opacity=".7" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- 4. искры «улучшения» -->
+            <g>
+                <g transform="translate(92 96)"><path class="spark" style="--d:8.4s" d="M0 -11L3 -3L11 0L3 3L0 11L-3 3L-11 0L-3 -3Z"/></g>
+                <g transform="translate(312 108)"><path class="spark" style="--d:8.7s" d="M0 -11L3 -3L11 0L3 3L0 11L-3 3L-11 0L-3 -3Z"/></g>
+                <g transform="translate(56 262)"><path class="spark" style="--d:9s" d="M0 -9L2.5 -2.5L9 0L2.5 2.5L0 9L-2.5 2.5L-9 0L-2.5 -2.5Z"/></g>
+                <g transform="translate(346 300)"><path class="spark" style="--d:9.3s" d="M0 -9L2.5 -2.5L9 0L2.5 2.5L0 9L-2.5 2.5L-9 0L-2.5 -2.5Z"/></g>
+                <g transform="translate(262 52)"><path class="spark" style="--d:9.6s" d="M0 -8L2 -2L8 0L2 2L0 8L-2 2L-8 0L-2 -2Z"/></g>
+            </g>
+
+            <!-- 5. кисточка (кончик в точке 0,0) -->
+            <g class="brush" aria-hidden="true">
+                <g transform="rotate(35)">
+                    <path d="M0 0C-10 -10 -10 -26 -6 -36L6 -36C10 -26 10 -10 0 0Z" fill="#f08fb2"/>
+                    <rect x="-7" y="-50" width="14" height="16" rx="2" fill="#d7bd78"/>
+                    <path d="M-5 -50L-4 -128Q0 -134 4 -128L5 -50Z" fill="#5a3e8c"/>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    {# название компании появляется после анимации и остаётся на экране #}
+    <header class="home-header hero__text">
+        {% if company.logo %}
+            <img src="{{ company.logo.url }}" alt="Логотип {{ company.name }}" class="home-logo">
+        {% endif %}
+        <div>
+            <h1 class="company-name">{{ company.name|default:"Косметологический центр" }}</h1>
+            <p class="home-tagline">Профессиональный уход за кожей и телом с заботой о каждом клиенте</p>
+        </div>
+    </header>
+</section>
+
+<p class="home-clock">
+    Ваше время (<abbr title="{{ user_tz }}">{{ user_tz }}</abbr>):
+    <time datetime="{{ now_local|date:'c' }}">{{ now_local|date:"d.m.Y H:i" }}</time>
+</p>
+
+{% if banners %}
+<section class="banner-strip" aria-label="Рекламные баннеры">
+    {% for b in banners %}
+        {% if b.link %}<a href="{{ b.link }}" target="_blank" rel="noopener noreferrer">{% endif %}
+        <figure class="banner-item">
+            <img src="{{ b.image.url }}" alt="{{ b.title }}">
+            <figcaption>{{ b.title }}</figcaption>
+        </figure>
+        {% if b.link %}</a>{% endif %}
+    {% endfor %}
+</section>
+{% endif %}
+
+{# последняя статья: лента, дата и кнопка размещены через position: absolute #}
+{% if latest_article %}
+<article class="latest-article">
+    <span class="latest-article__badge">Новое</span>
+    <h2>Последняя статья: {{ latest_article.title }}</h2>
+    <p>{{ latest_article.summary }}</p>
+    <p class="latest-article__date"><time datetime="{{ latest_article.published_at|date:'c' }}">{{ latest_article.published_at|date:"d.m.Y" }}</time></p>
+    <a href="/news/{{ latest_article.pk }}/" class="btn btn-sm latest-article__more">Читать далее</a>
+</article>
+{% endif %}
+
+<section aria-labelledby="doctors-heading">
+    <h2 id="doctors-heading">Наши врачи</h2>
+    <ul class="card-grid">
+        {% for d in doctors %}
+        <li>
+            <article class="card">
+                {% if d.photo %}<img src="{{ d.photo.url }}" srcset="{{ d.photo|thumb_url }} 150w, {{ d.photo.url }} 300w" sizes="150px" alt="Фото врача {{ d.full_name }}" class="card-photo">{% endif %}
+                <strong>{{ d.full_name }}</strong><br>
+                <small>{{ d.specialization }}</small><br>
+                <a href="/doctors/{{ d.pk }}/" class="btn btn-sm">Подробнее</a>
+            </article>
+        </li>
+        {% empty %}<li>Врачи не найдены.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+{# каталог услуг — CSS Grid Layout #}
+<section aria-labelledby="catalog-heading">
+    <h2 id="catalog-heading">Каталог услуг</h2>
+    <ul class="catalog-grid">
+        {% for s in services %}
+        <li>
+            <article class="card">
+                <strong>{{ s.name }}</strong>
+                <span class="catalog-price">{{ s.price }} руб.</span>
+                <span class="catalog-meta">{{ s.duration }} мин</span>
+                <a href="{% url 'service_detail' s.pk %}" class="btn btn-sm">Подробнее</a>
+            </article>
+        </li>
+        {% empty %}<li>Услуги не найдены.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+{# партнёры — круглые блоки #}
+{% if partners %}
+<section aria-labelledby="partners-heading">
+    <h2 id="partners-heading">Наши партнёры</h2>
+    <ul class="partners-list">
+        {% for p in partners %}
+        <li>
+            <a href="{{ p.website }}" target="_blank" rel="noopener noreferrer" title="{{ p.name }}">
+                <figure class="partner-item">
+                    <img src="{{ p.logo.url }}" alt="Логотип компании {{ p.name }}">
+                    <figcaption>{{ p.name }}</figcaption>
+                </figure>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+<section aria-labelledby="calendar-heading">
+    <h3 id="calendar-heading">Календарь</h3>
+    <pre class="calendar-box">{{ cal_text }}</pre>
+</section>
+
+<p class="home-cta">
+    <a href="/appointment/create/" class="btn">Записаться на приём</a>
+</p>
+<p>Адаптивность 1</p>
+<img srcset="/media/banners/adapt.png 480w, /media/banners/adapt2.png 1024w" sizes="(max-width:600px) 480px, 1024px" src="/media/banners/adapt2.png" alt="Адаптивная картинка">
+<p>Адаптивность 2</p>
+<img src="/media/banners/adapt2.png" alt="Адаптивная картинка" style="max-width: 100%;height: auto;">
+<p style="" class="" id="" title="" hidden="" data-content_root="" lang="" translate="" tabindex="" contenteditable="" dir="" spellcheck="" accesskey="" role="">Мяу</p>
+{% endblock %}

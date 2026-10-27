@@ -1,0 +1,85 @@
+{% load static %}<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Косметологический центр: процедуры по уходу за кожей, запись к врачам-косметологам онлайн.">
+    <meta name="keywords" content="косметология, уход за кожей, запись к врачу, spa, красота">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B4%3C/text%3E%3C/svg%3E">
+    <title>{% block title %}Косметологический центр{% endblock %}</title>
+
+    {# Основной шрифт — из службы шрифтов Google Fonts (запасные шрифты заданы в style.css) #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animation.css' %}">
+</head>
+<body>
+<header>
+<nav class="site-nav" aria-label="Основная навигация">
+    <div class="site-nav__links">
+        <a href="/"{% if request.path == '/' %} aria-current="page"{% endif %}>Главная</a>
+        <a href="/about/"{% if request.path == '/about/' %} aria-current="page"{% endif %}>О нас</a>
+        <a href="/news/"{% if '/news/' in request.path %} aria-current="page"{% endif %}>Новости</a>
+        <a href="/doctors/"{% if '/doctors/' in request.path %} aria-current="page"{% endif %}>Врачи</a>
+        <a href="/services/"{% if '/services/' in request.path %} aria-current="page"{% endif %}>Услуги</a>
+        <a href="/faq/"{% if request.path == '/faq/' %} aria-current="page"{% endif %}>FAQ</a>
+        <a href="/contacts/"{% if request.path == '/contacts/' %} aria-current="page"{% endif %}>Контакты</a>
+        <a href="/vacancies/"{% if request.path == '/vacancies/' %} aria-current="page"{% endif %}>Вакансии</a>
+        <a href="/reviews/"{% if request.path == '/reviews/' %} aria-current="page"{% endif %}>Отзывы</a>
+        <a href="/promos/"{% if request.path == '/promos/' %} aria-current="page"{% endif %}>Промокоды</a>
+        {% if user.is_staff %}<a href="/multitasking/">Многозадачность*</a>{% endif %}
+        <a href="{% url 'cart' %}"{% if request.path == '/cart/' %} aria-current="page"{% endif %}>Корзина{% if request.session.cart %} ({{ request.session.cart|length }}){% endif %}</a>
+    </div>
+    <div class="site-nav__user">
+        {% if user.is_authenticated %}
+            <strong>{{ user.username }}</strong>
+            {% if user.is_staff %}
+                <a href="/admin/">Админ</a>
+                <a href="/statistics/">Статистика</a>
+            {% elif user.doctor_profile %}
+                <a href="/doctor/profile/">Кабинет врача</a>
+            {% else %}
+                <a href="/profile/">Личный кабинет</a>
+            {% endif %}
+            <form method="post" action="{% url 'logout' %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" class="nav-logout">Выход</button>
+            </form>
+        {% else %}
+            <a href="/register/client/">Регистрация</a>
+            <a href="/login/">Вход</a>
+        {% endif %}
+    </div>
+</nav>
+</header>
+
+{% if messages %}
+<ul class="messages">
+    {% for m in messages %}
+    <li class="{{ m.tags }}">{{ m }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<main class="main">{% block content %}{% endblock %}</main>
+
+<footer>
+    &copy; 2026 Косметологический центр. Все права защищены.
+    <a href="/privacy/">Конфиденциальность</a>
+</footer>
+
+{# Прелоадер «анимированные линии». По заданию пока без JS — просто расположен внизу страницы #}
+<div class="preloader" role="status" aria-label="Загрузка страницы">
+    <svg class="preloader__svg" viewBox="0 0 140 44" aria-hidden="true">
+        <path class="preloader__line preloader__line--1" d="M5 12 Q 20 -2 35 12 T 65 12 T 95 12 T 125 12 T 140 12"/>
+        <path class="preloader__line preloader__line--2" d="M5 22 Q 20 8 35 22 T 65 22 T 95 22 T 125 22 T 140 22"/>
+        <path class="preloader__line preloader__line--3" d="M5 32 Q 20 18 35 32 T 65 32 T 95 32 T 125 32 T 140 32"/>
+    </svg>
+    <p class="preloader__text">Загрузка…</p>
+</div>
+</body>
+</html>

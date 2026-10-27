@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}{{ service.name }} — Услуги{% endblock %}
+{% block content %}
+
+<nav aria-label="Хлебные крошки" class="breadcrumbs">
+    <a href="/">Главная</a> › <a href="/services/">Услуги</a> › <span>{{ service.name }}</span>
+</nav>
+
+<article class="product">
+    <header>
+        <h1>{{ service.name }}</h1>
+        <p class="product-category">Категория: {{ service.category.name }}</p>
+    </header>
+
+    <p class="product-price">
+        <strong>{{ service.price|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</strong>
+        <span class="product-duration">· {{ service.duration }} мин</span>
+    </p>
+
+    {% if service.description %}
+    <section aria-labelledby="desc-heading">
+        <h2 id="desc-heading">Описание</h2>
+        <p>{{ service.description }}</p>
+    </section>
+    {% endif %}
+
+    <form method="post" action="{% url 'cart_add' service.pk %}" class="add-to-cart-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'service_detail' service.pk %}">
+        <label for="qty">Количество:</label>
+        <input type="number" id="qty" name="quantity" value="1" min="1" max="20" required>
+        <button type="submit" class="btn">Добавить в корзину</button>
+    </form>
+
+    {% if doctors %}
+    <section aria-labelledby="doctors-heading">
+        <h2 id="doctors-heading">Кто оказывает услугу</h2>
+        <ul class="card-grid">
+            {% for d in doctors %}
+            <li>
+                <article class="card">
+                    <strong>{{ d.full_name }}</strong><br>
+                    <small>{{ d.specialization }}</small><br>
+                    <a href="/doctors/{{ d.pk }}/" class="btn btn-sm">Профиль врача</a>
+                </article>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if related %}
+    <section aria-labelledby="related-heading">
+        <h2 id="related-heading">Похожие услуги</h2>
+        <ul class="card-grid">
+            {% for s in related %}
+            <li>
+                <article class="card">
+                    <strong>{{ s.name }}</strong><br>
+                    <span>{{ s.price|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</span><br>
+                    <a href="{% url 'service_detail' s.pk %}" class="btn btn-sm">Подробнее</a>
+                </article>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+</article>
+
+<p><a href="{% url 'cart' %}" class="btn btn-sm">Перейти в корзину</a></p>
+{% endblock %}

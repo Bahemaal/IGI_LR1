@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Промокоды и купоны{% endblock %}
+{% block content %}
+<h1>Промокоды и купоны</h1>
+
+<section aria-labelledby="current-heading">
+    <h2 id="current-heading">Действующие</h2>
+    <ul class="promo-list promo-list--current">
+        {% for p in current %}
+        <li>
+            <article class="card promo-card">
+                <strong class="promo-code">{{ p.code }}</strong> — скидка {{ p.discount_percent }}%<br>
+                <small>
+                    <time datetime="{{ p.valid_from|date:'Y-m-d' }}">{{ p.valid_from|date:"d.m.Y" }}</time>
+                    —
+                    <time datetime="{{ p.valid_to|date:'Y-m-d' }}">{{ p.valid_to|date:"d.m.Y" }}</time>
+                </small><br>
+                {{ p.description }}
+            </article>
+        </li>
+        {% empty %}<li>Нет активных промокодов.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section aria-labelledby="archive-heading">
+    <h2 id="archive-heading">Архив</h2>
+    <ul class="promo-list promo-list--archive">
+        {% for p in archived %}
+        <li>
+            <article class="card promo-card promo-expired">
+                <strong>{{ p.code }}</strong> — {{ p.discount_percent }}%
+                (истёк <time datetime="{{ p.valid_to|date:'Y-m-d' }}">{{ p.valid_to|date:"d.m.Y" }}</time>)
+            </article>
+        </li>
+        {% empty %}<li>Архив пуст.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

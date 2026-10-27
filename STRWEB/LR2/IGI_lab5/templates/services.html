@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}Услуги{% endblock %}
+{% block content %}
+<h1>Услуги</h1>
+<p><a href="{{ MEDIA_URL }}documents/price_list.pdf" download="прайс-лист.pdf" class="btn btn-sm">Скачать прайс-лист (PDF)</a></p>
+
+<form method="get" class="filter-form filter-form--wrap">
+    <div>
+        <label for="svc-search">Поиск</label><br>
+        <input type="text" id="svc-search" name="search" list="service-names"
+               value="{{ form.search.value|default:'' }}" placeholder="Название...">
+        <datalist id="service-names">
+            {% for s in all_service_names %}<option value="{{ s }}">{% endfor %}
+        </datalist>
+    </div>
+    <div><label>Категория<br>{{ form.category }}</label></div>
+    {# min/max заданы, чтобы значения вне диапазона подсвечивались псевдоклассом :out-of-range #}
+    <div><label>Цена от<br><input type="number" name="min_price" min="0" max="100000" step="0.01" value="{{ form.min_price.value|default:'' }}"></label></div>
+    <div><label>Цена до<br><input type="number" name="max_price" min="0" max="100000" step="0.01" value="{{ form.max_price.value|default:'' }}"></label></div>
+    <div><label>Сортировка<br>{{ form.sort }}</label></div>
+    <div><button type="submit" class="btn">Найти</button></div>
+
+    <select onchange="setCurrency(this.value)" aria-label="Валюта">
+      <option value="BYN"{% if current_currency == "BYN" %} selected{% endif %}>BYN</option>
+      <option value="USD"{% if current_currency == "USD" %} selected{% endif %}>USD</option>
+      <option value="RUB"{% if current_currency == "RUB" %} selected{% endif %}>RUB</option>
+    </select>
+    <script>
+    function setCurrency(cur) {
+      fetch('/set-currency/', {method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'}, body: JSON.stringify({currency: cur})})
+        .then(response => { if (response.ok) location.reload(); });
+    }
+    </script>
+</form>
+
+{% load custom_tags %}
+<ul class="catalog-grid" aria-label="Карточки услуг">
+{% for s in services %}
+    <li><article class="card">
+        <h2><a href="{% url 'service_detail' s.pk %}">{{ s.name }}</a></h2>
+        <p>{{ s.description|truncatewords:20 }}</p>
+        <strong class="catalog-price">{{ s.price|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</strong>
+        <span class="catalog-meta">{{ s.duration }} мин</span>
+        <a href="{% url 'service_detail' s.pk %}" class="btn btn-sm">Подробнее</a>
+    </article></li>
+{% empty %}<li>Ничего не найдено.</li>{% endfor %}
+</ul>
+<div class="table-scroll"><table class="catalog-table">
+<caption>Каталог услуг центра</caption>
+<colgroup>
+    <col class="col-main">
+    <col>
+    <col class="col-num">
+    <col class="col-num">
+    <col>
+</colgroup>
+<thead>
+<tr>
+    <th id="col-name" scope="col">Название</th>
+    <th id="col-cat" scope="col">Категория</th>
+    <th id="col-price" scope="col">Цена</th>
+    <th id="col-dur" scope="col">Длительность</th>
+    <th id="col-action" scope="col"><span class="visually-hidden">Действие</span></th>
+</tr>
+</thead>
+<tbody>
+{% for s in services %}
+<tr>
+    <td headers="col-name"><a href="{% url 'service_detail' s.pk %}">{{ s.name }}</a></td>
+    <td headers="col-cat">{{ s.category }}</td>
+    <td headers="col-price">{{ s.price|convert_price:current_currency|floatformat:2 }} {{ current_currency }}</td>
+    <td headers="col-dur">{{ s.duration }} мин</td>
+    <td headers="col-action">
+        <form method="post" action="{% url 'cart_add' s.pk %}" style="display:inline">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="next" value="{% url 'services' %}">
+            <button type="submit" class="btn btn-sm">В корзину</button>
+        </form>
+    </td>
+</tr>
+{% empty %}<tr><td colspan="5">Ничего не найдено</td></tr>
+{% endfor %}
+</tbody>
+<tfoot>
+<tr>
+    <td colspan="4" class="text-right"><strong>Всего позиций в каталоге:</strong></td>
+    <td class="center"><strong>{{ services|length }}</strong></td>
+</tr>
+</tfoot>
+</table></div>
+
+<div class="table-scroll"><table class="stat-table">
+    <caption>Расписание работы центра</caption>
+    <thead>
+    <tr>
+        <th scope="col">День</th>
+        <th scope="col">Время</th>
+        <th scope="col">Примечание</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td rowspan="5" class="center">Пн–Пт</td>
+        <td class="center">9:00–20:00</td>
+        <td rowspan="5" class="center">Без перерыва</td>
+    </tr>
+    <tr><td class="center">9:00–20:00</td></tr>
+    <tr><td class="center">9:00–20:00</td></tr>
+    <tr><td class="center">9:00–20:00</td></tr>
+    <tr><td class="center">9:00–20:00</td></tr>
+    <tr>
+        <td class="center">Сб</td>
+        <td class="center">10:00–16:00</td>
+        <td class="center">Только запись</td>
+    </tr>
+    <tr>
+        <td colspan="2" class="text-right">Вс:</td>
+        <td class="center">Выходной</td>
+    </tr>
+    <tr>
+        <td class="center">Праздники</td>
+        <td></td>
+        <td class="center">Уточняйте по телефону</td>
+    </tr>
+    </tbody>
+</table></div>
+{% endblock %}

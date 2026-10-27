@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Новости{% endblock %}
+{% block content %}
+<h1>Новости</h1>
+<section aria-label="Список новостей">
+    <ul class="news-list">
+        {% for a in articles %}
+        <li>
+            <article class="card news-card">
+                {% if a.image %}<img src="{{ a.image.url }}" alt="{{ a.title }}" class="card-photo">{% endif %}
+                <div class="news-card__body">
+                    <h2>{{ a.title }}</h2>
+                    <small><time datetime="{{ a.published_at|date:'c' }}">{{ a.published_at|date:"d.m.Y" }}</time></small>
+                    {# краткое содержание: overflow + text-overflow: ellipsis (полный текст — в title) #}
+                    <p class="news-summary" title="{{ a.summary }}">{{ a.summary }}</p>
+                    <a href="/news/{{ a.pk }}/" class="btn btn-sm">Читать далее</a>
+                </div>
+            </article>
+        </li>
+        {% empty %}<li>Новостей пока нет.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <!-- Фоновый узор сертификата (гильоше) -->
+  <g fill="none" stroke="#c9a063" stroke-opacity=".28" stroke-width="1">
+    <circle cx="30" cy="30" r="22"/>
+    <circle cx="30" cy="30" r="14"/>
+    <circle cx="30" cy="30" r="6"/>
+    <path d="M0 30H60M30 0V60"/>
+    <path d="M8 8L52 52M52 8L8 52" stroke-opacity=".15"/>
+  </g>
+</svg>

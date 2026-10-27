@@ -1,0 +1,148 @@
+/* ==========================================================================
+   animation.css — вариант 22 «Косметологический центр»
+   1. Анимация на главной: схематичное лицо, кисточка «проявляет» глаза, брови,
+      губы, нос, щёки; черты лица улучшаются; появляется название и остаётся.
+   2. Прелоадер «анимированные линии» (расположен внизу страницы, без JS).
+
+   Временная шкала анимации на главной (всего ~11 с):
+     0.1–1.9 c   рисуется контур лица (stroke-dashoffset)
+     1.4–2.0 c   появляются схематичные направляющие
+     1.6–2.4 c   лицо заливается тусклым тоном кожи
+     1.6 c       кисточка выезжает
+     2.3 / 3.0   глаза (левый / правый)
+     3.5 / 4.1   брови (правая / левая)
+     4.7 c       губы
+     5.5 c       нос
+     6.3 / 6.9   щёки (левая / правая)
+     8.1 c       кисточка уходит
+     8.2–9.9 c   «улучшение»: кожа сияет, глаза крупнее + ресницы, брови выше, губы полнее, румянец ярче, искры
+     9.8–11.2 c  появляется название компании и остаётся на экране
+   ========================================================================== */
+
+/* ---------- область анимации ---------- */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
+    padding: 18px 20px 26px;
+    text-align: center;
+    background: linear-gradient(165deg, #ffffff 0%, var(--blush) 55%, #efe6f8 100%);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+@media (max-height: 700px) { .hero .hero__canvas { height: 300px; } }
+.hero__canvas { width: 100%; max-width: 400px; height: 400px; }
+.face { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* название компании: появляется в конце и остаётся (animation-fill-mode: both) */
+.hero__text {
+    margin-top: 6px;
+    opacity: 0;
+    animation: name-in 1.4s ease-out 9.8s both;
+}
+
+/* ---------- контур лица, шея ---------- */
+.face__skin, .face__neck {
+    fill: none;
+    stroke: var(--plum);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;                    /* pathLength="1" → длина контура = 1 */
+    stroke-dashoffset: 1;
+    animation: draw 1.8s ease-in-out .1s forwards;
+}
+.face__skin { animation: draw 1.8s ease-in-out .1s forwards, skin-fill .8s ease 1.6s forwards, skin-glow 1.8s ease 8.2s forwards; }
+
+/* схематичные направляющие (карандашный набросок) */
+.face__guides { fill: none; stroke: #b8a6cf; stroke-width: 1.2; stroke-dasharray: 4 4; opacity: 0; animation: fade-in .6s ease 1.4s forwards; }
+
+/* ---------- черты лица: проявляются по очереди ---------- */
+.feat { transform-box: fill-box; transform-origin: center; }
+.feat--eye-l   { animation: pop .7s ease-out 2.3s both, eye-up 1.4s ease-in-out 8.3s forwards; }
+.feat--eye-r   { animation: pop .7s ease-out 3.0s both, eye-up 1.4s ease-in-out 8.3s forwards; }
+.feat--brow-r  { animation: pop .6s ease-out 3.5s both, brow-up 1.2s ease-in-out 8.5s forwards; }
+.feat--brow-l  { animation: pop .6s ease-out 4.1s both, brow-up 1.2s ease-in-out 8.5s forwards; }
+.feat--lips    { animation: pop .7s ease-out 4.7s both, lips-up 1.4s ease-in-out 8.6s forwards; }
+.feat--nose    { animation: pop .6s ease-out 5.5s both; }
+.feat--cheek-l { animation: pop .8s ease-out 6.3s both, cheek-up 1.4s ease-in-out 8.4s forwards; }
+.feat--cheek-r { animation: pop .8s ease-out 6.9s both, cheek-up 1.4s ease-in-out 8.4s forwards; }
+
+/* ресницы и блик на губах появляются на этапе «улучшения» */
+.lash, .gloss { opacity: 0; animation: fade-in .8s ease 8.9s forwards; }
+
+/* искры */
+.spark { fill: #f3c969; opacity: 0; transform-box: fill-box; transform-origin: center; animation: twinkle 1.6s ease-in-out var(--d, 8.4s) 2 both; }
+
+/* ---------- кисточка ---------- */
+.brush { opacity: 0; animation: brush-path 12s ease-in-out 0s both; }
+
+/* ---------- ключевые кадры ---------- */
+@keyframes draw      { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes fade-in   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes skin-fill { from { fill: rgba(234, 219, 214, 0); } to { fill: #eadbd6; } }
+@keyframes skin-glow { from { fill: #eadbd6; } to { fill: #ffe9df; } }
+@keyframes pop {
+    0%   { opacity: 0; transform: scale(.4); }
+    70%  { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
+}
+@keyframes eye-up   { to { transform: scale(1.12); } }
+@keyframes brow-up  { to { transform: translateY(-5px) scale(1.04); } }
+@keyframes lips-up  { to { transform: scale(1.1, 1.22); } }
+@keyframes cheek-up { to { transform: scale(1.18); } }
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+    50%      { opacity: 1; transform: scale(1.1) rotate(45deg); }
+}
+@keyframes name-in {
+    0%   { opacity: 0; transform: translateY(14px); letter-spacing: .12em; }
+    100% { opacity: 1; transform: translateY(0); letter-spacing: normal; }
+}
+/* траектория кончика кисточки (координаты — в системе viewBox 400×480) */
+@keyframes brush-path {
+    0%, 13% { transform: translate(350px, 70px);   opacity: 0; }
+    18%     { transform: translate(150px, 192px);  opacity: 1; }   /* левый глаз */
+    24%     { transform: translate(250px, 192px);  opacity: 1; }   /* правый глаз */
+    29%     { transform: translate(285px, 150px); }                 /* правая бровь */
+    35%     { transform: translate(150px, 150px); }                 /* левая бровь */
+    40%     { transform: translate(200px, 334px); }                /* губы */
+    47%     { transform: translate(200px, 262px); }                /* нос */
+    53%     { transform: translate(118px, 270px); }                /* левая щека */
+    58%     { transform: translate(282px, 270px); }                /* правая щека */
+    64%     { transform: translate(360px, 130px); opacity: 1; }
+    68%, 100% { transform: translate(370px, 90px); opacity: 0; }
+}
+
+
+/* ==========================================================================
+   ПРЕЛОАДЕР «АНИМИРОВАННЫЕ ЛИНИИ» (внизу страницы)
+   ========================================================================== */
+.preloader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 0 22px;
+    background: #2e1f4d;
+    color: #cdbfe6;
+    font-size: .72rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+}
+.preloader__svg { width: 140px; height: 44px; }
+.preloader__line {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 18 12;                /* штрих + пробел */
+    animation: line-flow 1.2s linear infinite;
+}
+.preloader__line--1 { stroke: var(--rose); }
+.preloader__line--2 { stroke: var(--gold); animation-duration: 1.7s; animation-direction: reverse; }
+.preloader__line--3 { stroke: #b79be3; animation-duration: 2.2s; }
+.preloader__text { margin: 0; }
+@keyframes line-flow { to { stroke-dashoffset: -60; } }

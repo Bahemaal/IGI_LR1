@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Отзывы{% endblock %}
+{% block content %}
+<h1>Отзывы клиентов</h1>
+
+{% if user.is_authenticated and form %}
+<section aria-labelledby="add-review-heading" class="card review-form">
+    <h2 id="add-review-heading">Оставить отзыв</h2>
+    <form method="post" action="/reviews/add/">
+        {% csrf_token %}
+        {# заблокированное поле — стилизуется псевдоклассом :disabled #}
+        <div class="form-row">
+            <label for="rv-author">Автор отзыва</label>
+            <input type="text" id="rv-author" value="{{ user.username }}" disabled>
+        </div>
+        {# обязательные поля (:required), диапазон оценки задаётся в форме #}
+        {% for field in form %}
+        <div class="form-row">
+            {% if field.name == "rating" %}
+            <fieldset><legend>{{ field.label }}</legend>{{ field }}</fieldset>
+            {% else %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% endif %}
+            {% if field.errors %}<span class="form-error">{{ field.errors }}</span>{% endif %}
+        </div>
+        {% endfor %}
+        {# флажок — псевдокласс :checked #}
+        <div class="consent">
+            <input type="checkbox" id="rv-consent" required>
+            <label for="rv-consent">Согласен с <a href="/privacy/">политикой конфиденциальности</a></label>
+        </div>
+        <button type="submit" class="btn">Отправить</button>
+    </form>
+</section>
+{% elif not user.is_authenticated %}
+<p><a href="/login/">Войдите</a>, чтобы оставить отзыв.</p>
+{% endif %}
+
+<section aria-label="Список отзывов">
+    <ul class="review-list">
+        {% for r in reviews %}
+        <li>
+            <article class="card">
+                <strong>{{ r.client.full_name }}</strong>
+                <span class="review-stars" aria-label="Оценка {{ r.rating }} из 5">
+                    {% for i in "12345"|make_list %}{% if forloop.counter <= r.rating %}★{% else %}☆{% endif %}{% endfor %}
+                </span>
+                <small><time datetime="{{ r.created_at|date:'Y-m-d' }}">{{ r.created_at|date:"d.m.Y" }}</time></small>
+                <blockquote lang="ru"><p>{{ r.text }}</p></blockquote>
+            </article>
+        </li>
+        {% empty %}<li>Отзывов пока нет.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

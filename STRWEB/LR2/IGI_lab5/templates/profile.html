@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<h1>Личный кабинет: {{ client.full_name }}</h1>
+<p>Телефон: {{ client.phone }} | Email: {{ client.email }}</p>
+<p>Возраст: {{ client.age }} лет</p>
+
+<dl class="stat-cards">
+    <div class="stat-card stat-neutral"><dt>Всего записей</dt><dd>{{ total_appointments }}</dd></div>
+    <div class="stat-card stat-success"><dt>Предстоящих</dt><dd>{{ upcoming }}</dd></div>
+    <div class="stat-card stat-info"><dt>Завершено</dt><dd>{{ completed }}</dd></div>
+</dl>
+
+<section aria-labelledby="my-appointments-heading">
+    <h2 id="my-appointments-heading">Мои записи</h2>
+    <p><a href="/appointment/create/" class="btn btn-sm">+ Новая запись</a></p>
+    <div class="table-scroll"><table>
+        <tr><th scope="col">Врач</th><th scope="col">Услуга</th><th scope="col">Дата/Время</th><th scope="col">Статус</th><th scope="col">Действия</th></tr>
+        {% for a in appointments %}
+        <tr>
+            <td>{{ a.doctor.full_name }}</td>
+            <td>{{ a.service.name }}</td>
+            <td><time datetime="{{ a.date_time|date:'c' }}">{{ a.date_time|date:"d.m.Y H:i" }}</time></td>
+            <td>{{ a.get_status_display }}</td>
+            <td>
+                <a href="/appointment/{{ a.pk }}/edit/" class="btn btn-sm">Изменить</a>
+                <a href="/appointment/{{ a.pk }}/delete/" class="btn btn-sm btn-danger">Отменить</a>
+            </td>
+        </tr>
+        {% empty %}<tr><td colspan="5">Записей нет</td></tr>
+        {% endfor %}
+    </table></div>
+</section>
+
+<section aria-labelledby="notes-heading">
+    <h2 id="notes-heading">Личные заметки</h2>
+    <p><small>Редактируется прямо здесь (contenteditable), сохраняется только в браузере на время сессии.</small></p>
+    <div contenteditable="true" spellcheck="true" class="notes-box"
+         aria-label="Поле для личных заметок">Например: не забыть взять результаты анализов на приём.</div>
+</section>
+
+<section aria-labelledby="ip-heading">
+    <h2 id="ip-heading">Твой IP-адрес</h2>
+    <dl class="ip-info">
+        <dt>IP</dt><dd>{{ ip }}</dd>
+        {% if ip_info.country %}
+        <dt>Страна</dt><dd>{{ ip_info.country }}</dd>
+        <dt>Город</dt><dd>{{ ip_info.city|default:"—" }}</dd>
+        <dt>Регион</dt><dd>{{ ip_info.region|default:"—" }}</dd>
+        <dt>Провайдер</dt><dd>{{ ip_info.isp|default:"—" }}</dd>
+        {% endif %}
+    </dl>
+</section>
+{% endblock %}
